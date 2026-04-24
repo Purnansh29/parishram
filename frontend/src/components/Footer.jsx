@@ -5,13 +5,15 @@ const Footer = () => {
     <footer className="bg-bgSecondary border-t border-borderColor pt-24 pb-4 mt-24">
       <div className="w-full max-w-[1200px] mx-auto px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-12 mb-24">
-          <div className="max-w-[300px]">
-            <Link to="/" className="flex items-center gap-2 font-heading font-bold text-2xl tracking-tight mb-4">
-              <div className="w-8 h-8 rounded-md bg-accent-gradient flex items-center justify-center text-base font-extrabold text-white">P</div>
-              <span>Parishram</span>
+          <div className="col-span-1 md:col-span-1">
+            <Link to="/" className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 rounded-lg bg-accent-gradient flex items-center justify-center text-sm font-bold text-white shadow-sm">
+                P
+              </div>
+              <span className="font-heading font-extrabold text-xl tracking-tight text-gray-900">Parishram</span>
             </Link>
-            <p className="text-textSecondary text-[0.95rem] leading-relaxed">
-              The modern, all-in-one platform for managing your school's daily operations. Built for educators, loved by parents.
+            <p className="text-gray-500 text-sm leading-relaxed mb-6">
+              Transforming education for rural aspirants with comprehensive, accessible, and high-quality coaching.
             </p>
           </div>
 

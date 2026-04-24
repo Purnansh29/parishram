@@ -29,9 +29,11 @@ const Navbar = () => {
         id="navbar"
       >
         <div className="w-full max-w-[1200px] mx-auto px-8 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-heading font-bold text-2xl tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.03]" id="navbar-logo">
-            <div className="w-9 h-9 rounded-md bg-accent-gradient flex items-center justify-center text-[1.1rem] font-extrabold text-white shadow-[0_0_20px_rgba(108,92,231,0.35)]">P</div>
-            <span className="gradient-text">Parishram</span>
+          <Link to="/" className="flex items-center gap-2 cursor-pointer transition-transform duration-200" id="navbar-logo">
+            <div className="w-10 h-10 rounded-xl bg-accent-gradient flex items-center justify-center text-[1.4rem] font-extrabold text-white shadow-md">
+              P
+            </div>
+            <span className="font-heading font-extrabold text-2xl tracking-tight text-gray-900">Parishram</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-8">
@@ -39,16 +41,15 @@ const Navbar = () => {
               <Link
                 key={link.label}
                 to={link.to}
-                className="relative text-[0.9rem] font-medium text-textSecondary py-1 transition-colors duration-200 hover:text-textPrimary group"
-                id={`nav-link-${link.label.toLowerCase()}`}
+                className="relative text-[0.95rem] font-medium text-gray-700 py-2 transition-colors duration-200 hover:text-accentPrimary group"
+                id={`nav-link-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 {link.label}
-                <span className="absolute bottom-[-2px] left-0 w-0 h-[2px] bg-accent-gradient rounded-full transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
-            <button className="px-6 py-2.5 rounded-full border-none bg-accent-gradient text-white text-[0.85rem] font-semibold tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(108,92,231,0.25)] hover:-translate-y-0.5 hover:shadow-[0_0_35px_rgba(108,92,231,0.45)] cursor-pointer" id="navbar-cta">
-              Get Started
-            </button>
+            <Link to="/login" className="px-6 py-2.5 rounded-md bg-accentPrimary text-white text-[0.95rem] font-semibold tracking-wide transition-colors duration-200 shadow-sm hover:bg-accentPrimary/90 cursor-pointer" id="navbar-cta">
+              Login/Register
+            </Link>
           </div>
 
           <button
@@ -57,27 +58,27 @@ const Navbar = () => {
             id="navbar-mobile-toggle"
             aria-label="Toggle navigation menu"
           >
-            <span className={`w-6 h-[2px] bg-textPrimary rounded-full transition-all duration-300 ${mobileOpen ? 'translate-y-[7px] rotate-45' : ''}`}></span>
-            <span className={`w-6 h-[2px] bg-textPrimary rounded-full transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`w-6 h-[2px] bg-textPrimary rounded-full transition-all duration-300 ${mobileOpen ? '-translate-y-[7px] -rotate-45' : ''}`}></span>
+            <span className={`w-6 h-[2px] bg-gray-800 rounded-full transition-all duration-300 ${mobileOpen ? 'translate-y-[7px] rotate-45' : ''}`}></span>
+            <span className={`w-6 h-[2px] bg-gray-800 rounded-full transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`w-6 h-[2px] bg-gray-800 rounded-full transition-all duration-300 ${mobileOpen ? '-translate-y-[7px] -rotate-45' : ''}`}></span>
           </button>
         </div>
       </nav>
 
-      <div className={`fixed inset-0 bg-[#0a0a12]/95 backdrop-blur-[30px] flex flex-col items-center justify-center gap-8 z-[999] transition-all duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} id="navbar-mobile-menu">
+      <div className={`fixed inset-0 bg-white flex flex-col items-center justify-center gap-6 z-[999] transition-all duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} id="navbar-mobile-menu">
         {navLinks.map((link) => (
           <Link
             key={link.label}
             to={link.to}
-            className="text-[1.3rem] font-medium text-textSecondary transition-colors duration-200 hover:text-textPrimary"
+            className="text-[1.2rem] font-medium text-gray-800 transition-colors duration-200 hover:text-accentPrimary"
             onClick={closeMobile}
           >
             {link.label}
           </Link>
         ))}
-        <button className="px-9 py-3.5 rounded-full border-none bg-accent-gradient text-white text-[1rem] font-semibold cursor-pointer" onClick={closeMobile}>
-          Get Started
-        </button>
+        <Link to="/login" className="px-8 py-3 rounded-md bg-accentPrimary text-white text-[1rem] font-semibold cursor-pointer mt-4" onClick={closeMobile}>
+          Login/Register
+        </Link>
       </div>
     </>
   );

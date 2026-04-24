@@ -1,7 +1,7 @@
-import Navbar from '../components/LandingPage/Navbar/Navbar';
-import HeroSection from '../components/LandingPage/HeroSection/HeroSection';
-import FeaturesSection from '../components/LandingPage/FeaturesSection/FeaturesSection';
-import Footer from '../components/LandingPage/Footer/Footer';
+import Navbar from '../components/LandingPage/Navbar';
+import HeroSection from '../components/LandingPage/HeroSection';
+import FeaturesSection from '../components/LandingPage/FeaturesSection';
+import Footer from '../components/LandingPage/Footer';
 
 const LandingPage = () => {
   return (

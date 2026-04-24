@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -16,9 +17,9 @@ const Navbar = () => {
   const closeMobile = () => setMobileOpen(false);
 
   const navLinks = [
-    { label: 'Features', href: '#features' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Features', to: '/' },
+    { label: 'About', to: '/' },
+    { label: 'Contact', to: '/' },
   ];
 
   return (
@@ -28,22 +29,22 @@ const Navbar = () => {
         id="navbar"
       >
         <div className="w-full max-w-[1200px] mx-auto px-8 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-heading font-bold text-2xl tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.03]" id="navbar-logo">
+          <Link to="/" className="flex items-center gap-2 font-heading font-bold text-2xl tracking-tight cursor-pointer transition-transform duration-200 hover:scale-[1.03]" id="navbar-logo">
             <div className="w-9 h-9 rounded-md bg-accent-gradient flex items-center justify-center text-[1.1rem] font-extrabold text-white shadow-[0_0_20px_rgba(108,92,231,0.35)]">P</div>
             <span className="gradient-text">Parishram</span>
-          </div>
+          </Link>
 
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.label}
-                href={link.href}
+                to={link.to}
                 className="relative text-[0.9rem] font-medium text-textSecondary py-1 transition-colors duration-200 hover:text-textPrimary group"
                 id={`nav-link-${link.label.toLowerCase()}`}
               >
                 {link.label}
                 <span className="absolute bottom-[-2px] left-0 w-0 h-[2px] bg-accent-gradient rounded-full transition-all duration-300 group-hover:w-full"></span>
-              </a>
+              </Link>
             ))}
             <button className="px-6 py-2.5 rounded-full border-none bg-accent-gradient text-white text-[0.85rem] font-semibold tracking-wide transition-all duration-300 shadow-[0_0_20px_rgba(108,92,231,0.25)] hover:-translate-y-0.5 hover:shadow-[0_0_35px_rgba(108,92,231,0.45)] cursor-pointer" id="navbar-cta">
               Get Started
@@ -65,14 +66,14 @@ const Navbar = () => {
 
       <div className={`fixed inset-0 bg-[#0a0a12]/95 backdrop-blur-[30px] flex flex-col items-center justify-center gap-8 z-[999] transition-all duration-300 ${mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} id="navbar-mobile-menu">
         {navLinks.map((link) => (
-          <a
+          <Link
             key={link.label}
-            href={link.href}
+            to={link.to}
             className="text-[1.3rem] font-medium text-textSecondary transition-colors duration-200 hover:text-textPrimary"
             onClick={closeMobile}
           >
             {link.label}
-          </a>
+          </Link>
         ))}
         <button className="px-9 py-3.5 rounded-full border-none bg-accent-gradient text-white text-[1rem] font-semibold cursor-pointer" onClick={closeMobile}>
           Get Started

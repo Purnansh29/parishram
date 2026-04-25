@@ -8,22 +8,25 @@ import FinanceManagement from './pages/FinanceManagement';
 import MockTests from './pages/MockTests';
 import Analytics from './pages/Analytics';
 import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<AuthPage type="login" />} />
-        <Route path="/signup" element={<AuthPage type="signup" />} />
-        <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-        <Route path="/dashboard/students" element={<ProtectedRoute><StudentsManagement /></ProtectedRoute>} />
-        <Route path="/dashboard/teachers" element={<ProtectedRoute><TeachersManagement /></ProtectedRoute>} />
-        <Route path="/dashboard/finance" element={<ProtectedRoute><FinanceManagement /></ProtectedRoute>} />
-        <Route path="/dashboard/mock-tests" element={<ProtectedRoute><MockTests /></ProtectedRoute>} />
-        <Route path="/dashboard/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<AuthPage type="login" />} />
+          <Route path="/signup" element={<AuthPage type="signup" />} />
+          <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          <Route path="/dashboard/students" element={<ProtectedRoute><StudentsManagement /></ProtectedRoute>} />
+          <Route path="/dashboard/teachers" element={<ProtectedRoute><TeachersManagement /></ProtectedRoute>} />
+          <Route path="/dashboard/finance" element={<ProtectedRoute><FinanceManagement /></ProtectedRoute>} />
+          <Route path="/dashboard/mock-tests" element={<ProtectedRoute><MockTests /></ProtectedRoute>} />
+          <Route path="/dashboard/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

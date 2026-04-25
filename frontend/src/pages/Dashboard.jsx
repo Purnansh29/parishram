@@ -1,5 +1,6 @@
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
+import PopularCourses from '../components/PopularCourses';
 
 const Dashboard = () => {
   return (
@@ -22,10 +23,10 @@ const Dashboard = () => {
               <p className="text-3xl font-bold text-gray-900">₹2.4L</p>
             </div>
           </div>
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 text-center h-64 flex flex-col items-center justify-center">
-            <span className="text-4xl mb-4">🚀</span>
-            <h2 className="text-xl font-bold text-gray-800 mb-2">Welcome to Parishram Platform</h2>
-            <p className="text-gray-500 max-w-md mx-auto">Select a module from the sidebar to manage students, teachers, exams, and more.</p>
+          
+          {/* Popular Courses Section */}
+          <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 lg:p-8">
+            <PopularCourses />
           </div>
         </main>
       </div>

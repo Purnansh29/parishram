@@ -42,7 +42,7 @@ const FeaturesSection = () => {
 
         <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-8">
           {featuresData.map((feature, idx) => (
-            <div className="bg-bgCard border border-borderColor rounded-[24px] p-8 md:p-10 transition-all duration-300 relative overflow-hidden z-[1] group hover:-translate-y-[5px] hover:border-borderHover hover:shadow-[0_8px_40px_rgba(0,0,0,0.35)]" key={idx}>
+            <div className="bg-bgCard border border-borderColor rounded-[24px] p-8 md:p-10 transition-all duration-300 relative overflow-hidden z-[1] group hover:-translate-y-[5px] hover:border-borderHover hover:shadow-xl hover:shadow-accentPrimary/5" key={idx}>
               {/* Hover gradient background effect */}
               <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(108,92,231,0.1),transparent_70%)] opacity-0 transition-opacity duration-300 -z-10 group-hover:opacity-100"></div>
 

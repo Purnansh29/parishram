@@ -1,8 +1,12 @@
+import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import PopularCourses from '../components/PopularCourses';
+import SubjectSelectionModal from '../components/SubjectSelectionModal';
 
 const Dashboard = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       <Sidebar />
@@ -11,8 +15,8 @@ const Dashboard = () => {
         <main className="flex-1 p-6 lg:p-8 space-y-8">
           
           {/* Top Statistics Cards */}
+          {/* ... (keep existing cards) ... */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Tests Attempted */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
@@ -25,8 +29,6 @@ const Dashboard = () => {
               <p className="text-sm font-medium text-gray-500">Tests attempted</p>
               <h3 className="text-3xl font-black text-gray-900 mt-1">42</h3>
             </div>
-
-            {/* Accuracy % */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
@@ -44,8 +46,6 @@ const Dashboard = () => {
                 </svg>
               </div>
             </div>
-
-            {/* National Rank */}
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
@@ -62,16 +62,12 @@ const Dashboard = () => {
 
           {/* Performance Analysis & Right Stack */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
-            {/* Performance Analysis Card */}
             <div className="lg:col-span-2 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
               <div className="flex items-center justify-between mb-8">
                 <h3 className="text-xl font-bold text-gray-900">Performance Analysis</h3>
                 <button className="text-accentPrimary text-sm font-bold hover:underline">View Detailed Report</button>
               </div>
-
               <div className="space-y-8">
-                {/* Biology */}
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm font-bold">
                     <span className="text-gray-700">Biology</span>
@@ -81,8 +77,6 @@ const Dashboard = () => {
                     <div className="h-full bg-green-500 rounded-full" style={{ width: '92%' }}></div>
                   </div>
                 </div>
-
-                {/* Physics */}
                 <div className="space-y-2">
                   <div className="flex justify-between items-center text-sm font-bold">
                     <div className="flex items-center gap-2">
@@ -96,8 +90,6 @@ const Dashboard = () => {
                   </div>
                   <p className="text-xs text-gray-400 font-medium">Recommended: Practice "Optics" & "Thermodynamics" mcqs.</p>
                 </div>
-
-                {/* Chemistry */}
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm font-bold">
                     <span className="text-gray-700">Chemistry</span>
@@ -110,22 +102,21 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* Right Stack */}
             <div className="space-y-8">
-              {/* Practice Session Card */}
               <div className="bg-accentPrimary p-8 rounded-2xl shadow-lg relative overflow-hidden group">
-                {/* Background Pattern */}
                 <div className="absolute bottom-0 right-0 opacity-10 transform translate-x-4 translate-y-4">
                   <svg width="120" height="120" viewBox="0 0 24 24" fill="white">
                     <path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/>
                   </svg>
                 </div>
-                
                 <h3 className="text-2xl font-bold text-white mb-4">Practice Session</h3>
                 <p className="text-blue-100 text-sm font-medium mb-8 leading-relaxed">
                   You're 20 minutes away from your daily goal. Start a quick quiz now.
                 </p>
-                <button className="bg-white text-accentPrimary px-6 py-3 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 group-hover:gap-3">
+                <button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-white text-accentPrimary px-6 py-3 rounded-xl font-bold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 group-hover:gap-3"
+                >
                   Start Mock Test
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -133,7 +124,6 @@ const Dashboard = () => {
                 </button>
               </div>
 
-              {/* Subject Explorer Card */}
               <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
                 <h4 className="text-[0.7rem] font-black text-gray-400 uppercase tracking-[0.2em] mb-6">Subject Explorer</h4>
                 <div className="flex flex-wrap gap-2">
@@ -151,13 +141,17 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Popular Courses Section */}
           <div className="pt-8">
             <PopularCourses />
           </div>
-
         </main>
       </div>
+
+      {/* Modal */}
+      <SubjectSelectionModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+      />
     </div>
   );
 };

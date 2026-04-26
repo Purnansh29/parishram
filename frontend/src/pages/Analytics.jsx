@@ -53,8 +53,8 @@ const testSeries = [
     title: 'Previous Year Paper (2024)',
     category: 'FULL MOCK',
     locked: true,
-    description: 'Unlock all previous year papers with the Pro Membership',
-    status: 'Upgrade Now',
+    description: 'Access 10+ years of solved papers for just ₹99. Our mission is to make quality content accessible to all.',
+    status: 'Unlock Now',
     type: 'link'
   },
   {

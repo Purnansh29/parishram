@@ -7,6 +7,7 @@ import TeachersManagement from './pages/TeachersManagement';
 import FinanceManagement from './pages/FinanceManagement';
 import MockTests from './pages/MockTests';
 import Analytics from './pages/Analytics';
+import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/dashboard/finance" element={<ProtectedRoute><FinanceManagement /></ProtectedRoute>} />
           <Route path="/dashboard/mock-tests" element={<ProtectedRoute><MockTests /></ProtectedRoute>} />
           <Route path="/dashboard/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+          <Route path="/dashboard/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
         </Routes>
       </Router>
     </AuthProvider>

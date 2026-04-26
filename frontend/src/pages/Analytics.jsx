@@ -1,5 +1,41 @@
+import React from 'react';
+import { 
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, 
+  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
+  BarChart, Bar, Cell, PieChart, Pie, Legend
+} from 'recharts';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
+
+const performanceData = [
+  { month: 'Jan', score: 65, attendance: 88 },
+  { month: 'Feb', score: 68, attendance: 90 },
+  { month: 'Mar', score: 75, attendance: 92 },
+  { month: 'Apr', score: 72, attendance: 91 },
+  { month: 'May', score: 80, attendance: 95 },
+  { month: 'Jun', score: 85, attendance: 94 },
+];
+
+const subjectData = [
+  { subject: 'Physics', A: 85, fullMark: 100 },
+  { subject: 'Chemistry', A: 92, fullMark: 100 },
+  { subject: 'Maths', A: 78, fullMark: 100 },
+  { subject: 'Biology', A: 95, fullMark: 100 },
+  { subject: 'English', A: 88, fullMark: 100 },
+];
+
+const accuracyData = [
+  { name: 'Correct', value: 740, color: '#4f46e5' },
+  { name: 'Incorrect', value: 180, color: '#f87171' },
+  { name: 'Unattempted', value: 80, color: '#e5e7eb' },
+];
+
+const batchData = [
+  { name: 'JEE 2025', students: 450, avgScore: 78 },
+  { name: 'NEET 2026', students: 380, avgScore: 82 },
+  { name: 'UPSC Foundation', students: 220, avgScore: 65 },
+  { name: 'Class 12 Boards', students: 510, avgScore: 88 },
+];
 
 const Analytics = () => {
   return (
@@ -7,101 +43,158 @@ const Analytics = () => {
       <Sidebar />
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         <DashboardHeader title="Performance Analytics" />
-        <main className="flex-1 p-6 lg:p-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <p className="text-sm font-medium text-gray-500 mb-1">Avg. Test Score</p>
-              <h3 className="text-2xl font-bold text-gray-900">74%</h3>
-              <div className="mt-2 flex items-center text-xs font-medium text-green-600">
-                <span>↑ 12%</span><span className="ml-1 text-gray-400 font-normal">from last month</span>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <p className="text-sm font-medium text-gray-500 mb-1">Attendance Rate</p>
-              <h3 className="text-2xl font-bold text-gray-900">92.5%</h3>
-              <div className="mt-2 flex items-center text-xs font-medium text-green-600">
-                <span>↑ 2%</span><span className="ml-1 text-gray-400 font-normal">stable</span>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <p className="text-sm font-medium text-gray-500 mb-1">Active Students</p>
-              <h3 className="text-2xl font-bold text-gray-900">1,248</h3>
-              <div className="mt-2 flex items-center text-xs font-medium text-blue-600">
-                <span>New: +42</span><span className="ml-1 text-gray-400 font-normal">this week</span>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <p className="text-sm font-medium text-gray-500 mb-1">Revenue Growth</p>
-              <h3 className="text-2xl font-bold text-gray-900">₹8.4L</h3>
-              <div className="mt-2 flex items-center text-xs font-medium text-green-600">
-                <span>↑ 18%</span><span className="ml-1 text-gray-400 font-normal">Q1 Target Met</span>
-              </div>
-            </div>
+        
+        <main className="flex-1 p-6 lg:p-8 space-y-8">
+          {/* Top Statistics Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCard title="Avg. Test Score" value="74%" change="+12%" positive={true} subtitle="from last month" />
+            <StatCard title="Attendance Rate" value="92.5%" change="+2%" positive={true} subtitle="stable performance" />
+            <StatCard title="Active Students" value="1,248" change="+42" positive={true} subtitle="new this week" />
+            <StatCard title="Revenue Growth" value="₹8.4L" change="+18%" positive={true} subtitle="Q1 Target Met" />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold text-gray-900">Monthly Enrollment</h3>
-                <select className="text-xs border border-gray-300 rounded px-2 py-1 bg-gray-50">
-                  <option>Last 6 Months</option><option>Last Year</option>
+          {/* Main Analytics Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Performance Trend Area Chart */}
+            <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-900">Performance Over Time</h3>
+                  <p className="text-sm text-gray-500">Average test scores vs attendance trends</p>
+                </div>
+                <select className="text-sm border-gray-200 rounded-lg px-3 py-1.5 bg-gray-50 font-medium outline-none focus:ring-2 focus:ring-accentPrimary/20">
+                  <option>Last 6 Months</option>
+                  <option>Last Year</option>
                 </select>
               </div>
-              <div className="h-64 flex items-end justify-between gap-4 px-2">
-                {[45, 62, 58, 84, 76, 92].map((val, i) => (
-                  <div key={i} className="flex-1 flex flex-col items-center gap-2 group cursor-pointer">
-                    <div className="w-full bg-accentPrimary/20 rounded-t-lg group-hover:bg-accentPrimary/40 transition-colors relative" style={{ height: `${val}%` }}>
-                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">{val} Enrolled</div>
-                    </div>
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">{['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'][i]}</span>
-                  </div>
-                ))}
+              <div className="h-80 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={performanceData}>
+                    <defs>
+                      <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.1}/>
+                        <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{fill: '#9ca3af', fontSize: 12, fontWeight: 500}} 
+                      dy={10}
+                    />
+                    <YAxis 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{fill: '#9ca3af', fontSize: 12, fontWeight: 500}} 
+                    />
+                    <Tooltip 
+                      contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)'}}
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="score" 
+                      stroke="#4f46e5" 
+                      strokeWidth={3}
+                      fillOpacity={1} 
+                      fill="url(#colorScore)" 
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="attendance" 
+                      stroke="#10b981" 
+                      strokeWidth={3}
+                      fillOpacity={0}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
-            <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-              <h3 className="font-bold text-gray-900 mb-6">Student Distribution</h3>
-              <div className="flex items-center justify-center h-64 gap-12">
-                <div className="relative w-40 h-40">
-                  <div className="absolute inset-0 rounded-full border-[16px] border-accentPrimary/10"></div>
-                  <div className="absolute inset-0 rounded-full border-[16px] border-accentPrimary border-t-transparent border-l-transparent rotate-45"></div>
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">72%</span>
-                    <span className="text-[10px] font-bold text-gray-400 uppercase tracking-tighter">JEE Prep</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-accentPrimary"></div><span className="text-sm font-medium text-gray-600">JEE: 72%</span></div>
-                  <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-accentPrimary/60"></div><span className="text-sm font-medium text-gray-600">NEET: 18%</span></div>
-                  <div className="flex items-center gap-2"><div className="w-3 h-3 rounded bg-accentPrimary/20"></div><span className="text-sm font-medium text-gray-600">Boards: 10%</span></div>
-                </div>
+            {/* Subject Mastery Radar Chart */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Subject Mastery</h3>
+              <p className="text-sm text-gray-500 mb-8">Skill distribution across topics</p>
+              <div className="h-80 w-full flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RadarChart cx="50%" cy="50%" outerRadius="80%" data={subjectData}>
+                    <PolarGrid stroke="#f3f4f6" />
+                    <PolarAngleAxis dataKey="subject" tick={{fill: '#6b7280', fontSize: 11, fontWeight: 600}} />
+                    <Radar
+                      name="Accuracy"
+                      dataKey="A"
+                      stroke="#4f46e5"
+                      fill="#4f46e5"
+                      fillOpacity={0.6}
+                    />
+                  </RadarChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
 
-          <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
-              <h3 className="font-bold text-gray-900">Recent System Activity</h3>
-              <button className="text-accentPrimary text-sm font-bold hover:underline">View All</button>
+          {/* Secondary Row */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Batch Distribution Bar Chart */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-8">Batch Enrollment & Scores</h3>
+              <div className="h-72 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={batchData} layout="vertical">
+                    <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f3f4f6" />
+                    <XAxis type="number" hide />
+                    <YAxis 
+                      dataKey="name" 
+                      type="category" 
+                      axisLine={false} 
+                      tickLine={false} 
+                      tick={{fill: '#4b5563', fontSize: 13, fontWeight: 600}} 
+                      width={120}
+                    />
+                    <Tooltip 
+                      cursor={{fill: '#f9fafb'}}
+                      contentStyle={{borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)'}}
+                    />
+                    <Bar dataKey="students" fill="#4f46e5" radius={[0, 4, 4, 0]} barSize={20} />
+                    <Bar dataKey="avgScore" fill="#facc15" radius={[0, 4, 4, 0]} barSize={20} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-4 flex justify-center gap-6 text-xs font-bold uppercase tracking-wider text-gray-400">
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-sm bg-accentPrimary"></div> Students</div>
+                <div className="flex items-center gap-2"><div className="w-3 h-3 rounded-sm bg-yellow-400"></div> Avg. Score</div>
+              </div>
             </div>
-            <div className="p-4 space-y-4">
-              {[
-                { user: 'Admin', action: 'Uploaded new mock test papers', time: '12 mins ago', icon: '⚙️' },
-                { user: 'Finance', action: 'Processed 14 monthly fee payments', time: '45 mins ago', icon: '💰' },
-                { user: 'Amit Sharma', action: 'Marked attendance for Class 12A', time: '2 hours ago', icon: '👨‍🏫' },
-                { user: 'System', action: 'Weekly automated database backup complete', time: 'Yesterday', icon: '⚙️' },
-              ].map((log, i) => (
-                <div key={i} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm">{log.icon}</div>
-                    <div>
-                      <p className="text-sm font-semibold text-gray-900">{log.user}</p>
-                      <p className="text-xs text-gray-500">{log.action}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-gray-400 font-medium">{log.time}</span>
+
+            {/* Test Accuracy Donut Chart */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+              <h3 className="text-lg font-bold text-gray-900 mb-8">Test Accuracy Analysis</h3>
+              <div className="h-72 w-full flex items-center justify-center relative">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={accuracyData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={80}
+                      outerRadius={110}
+                      paddingAngle={5}
+                      dataKey="value"
+                    >
+                      {accuracyData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend verticalAlign="bottom" height={36}/>
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none mt-[-18px]">
+                  <p className="text-3xl font-black text-gray-900">74%</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Accuracy</p>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </main>
@@ -109,5 +202,18 @@ const Analytics = () => {
     </div>
   );
 };
+
+const StatCard = ({ title, value, change, positive, subtitle }) => (
+  <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+    <p className="text-sm font-semibold text-gray-500 mb-2">{title}</p>
+    <div className="flex items-end gap-3 mb-1">
+      <h3 className="text-3xl font-black text-gray-900 leading-none">{value}</h3>
+      <span className={`text-xs font-bold ${positive ? 'text-green-600' : 'text-red-600'} flex items-center mb-1`}>
+        {change}
+      </span>
+    </div>
+    <p className="text-xs text-gray-400 font-medium">{subtitle}</p>
+  </div>
+);
 
 export default Analytics;

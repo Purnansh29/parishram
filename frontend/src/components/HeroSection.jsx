@@ -42,6 +42,15 @@ const HeroSection = () => {
                 with <span className="text-accentPrimary">Quality Education</span>
               </p>
               
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full mb-8">
+                <a href="/login" className="w-full sm:flex-1 py-4 bg-accentPrimary hover:bg-accentPrimary/90 text-white font-bold rounded-2xl shadow-lg shadow-accentPrimary/20 transition-all text-center">
+                  Start Learning Now
+                </a>
+                <a href="#courses" className="w-full sm:flex-1 py-4 bg-gray-50 hover:bg-gray-100 text-gray-700 font-bold rounded-2xl border border-gray-200 transition-all text-center">
+                  Explore Courses
+                </a>
+              </div>
+
               <div className="flex items-center gap-4 bg-gray-50/50 px-6 py-3 rounded-full border border-gray-100">
                 <div className="flex -space-x-3">
                   <div className="w-10 h-10 rounded-full bg-[#e8eaf6] border-2 border-white flex items-center justify-center text-sm shadow-sm z-30">👨‍🎓</div>

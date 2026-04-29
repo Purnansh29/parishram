@@ -71,7 +71,7 @@ const HeroSection = () => {
                 
                 {/* Logo */}
                 <div className="mb-6 flex justify-center">
-                  <div className="w-28 h-28 rounded-3xl bg-gradient-to-br from-accentPrimary/10 to-accentSecondary/10 border border-accentPrimary/10 flex items-center justify-center p-3">
+                  <div className="w-44 h-44 rounded-3xl bg-gradient-to-br from-accentPrimary/10 to-accentSecondary/10 border border-accentPrimary/10 flex items-center justify-center p-4">
                     <img 
                       src="/parishram-logo.png" 
                       alt="Parishram Logo" 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateUser } from '../features/auth/authSlice';
+// import { updateUser } from '../features/auth/authSlice'; // Removed for now as not implemented in real backend yet
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
@@ -25,8 +25,8 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    // Update local state in Redux
-    dispatch(updateUser({ name: formData.name, email: formData.email }));
+    // Note: Profile update API will be implemented in Phase 5
+    console.log('Profile update triggered:', formData);
     setIsEditing(false);
   };
 

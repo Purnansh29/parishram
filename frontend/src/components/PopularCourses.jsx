@@ -1,102 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCourses } from '../features/courses/courseSlice';
 
-const COURSES_DATA = [
-  {
-    id: 1,
-    title: 'Quantum JEE 2027',
-    category: 'JEE',
-    classLevel: 'Class 11',
-    language: 'Hinglish',
-    status: 'Ongoing',
-    startDate: 'Starts 15 May',
-    price: 499,
-    originalPrice: 4999,
-    discountPercentage: 90,
-    bannerGradient: 'from-blue-500 to-indigo-600',
-    tags: ['Multiple plans inside'],
-  },
-  {
-    id: 2,
-    title: 'Astra JEE 2027',
-    category: 'JEE',
-    classLevel: 'Dropper',
-    language: 'English',
-    status: 'Upcoming',
-    startDate: 'Starts 20 Jun',
-    price: 599,
-    originalPrice: 5999,
-    discountPercentage: 90,
-    bannerGradient: 'from-cyan-500 to-blue-600',
-    tags: [],
-  },
-  {
-    id: 3,
-    title: 'Genesis NEET 2027',
-    category: 'NEET',
-    classLevel: 'Class 11',
-    language: 'Hinglish',
-    status: 'Ongoing',
-    startDate: 'Starts 10 May',
-    price: 499,
-    originalPrice: 4499,
-    discountPercentage: 89,
-    bannerGradient: 'from-emerald-400 to-teal-500',
-    tags: ['Multiple plans inside'],
-  },
-  {
-    id: 4,
-    title: 'BioCore NEET 2027',
-    category: 'NEET',
-    classLevel: 'Class 12',
-    language: 'Hinglish',
-    status: 'Upcoming',
-    startDate: 'Starts 25 May',
-    price: 499,
-    originalPrice: 4999,
-    discountPercentage: 90,
-    bannerGradient: 'from-green-400 to-emerald-600',
-    tags: [],
-  },
-  {
-    id: 5,
-    title: 'Sankalp UPSC 2027',
-    category: 'UPSC / CA',
-    classLevel: 'Foundation',
-    language: 'Hinglish',
-    status: 'Ongoing',
-    startDate: 'Starts 01 Jun',
-    price: 999,
-    originalPrice: 9999,
-    discountPercentage: 90,
-    bannerGradient: 'from-orange-400 to-red-500',
-    tags: ['Multiple plans inside'],
-  },
-  {
-    id: 6,
-    title: 'Rajpath UPSC 2027',
-    category: 'UPSC / CA',
-    classLevel: 'Advanced',
-    language: 'English',
-    status: 'Upcoming',
-    startDate: 'Starts 15 Jul',
-    price: 1299,
-    originalPrice: 12999,
-    discountPercentage: 90,
-    bannerGradient: 'from-rose-400 to-pink-600',
-    tags: [],
-  },
-];
-
-const CATEGORIES = ['All', 'JEE', 'NEET', 'UPSC / CA'];
+const CATEGORIES = ['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'JEE', 'NEET'];
 
 const PopularCourses = () => {
+  const dispatch = useDispatch();
+  const { courses, loading, error } = useSelector((state) => state.courses);
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const filteredCourses = COURSES_DATA.filter((course) => {
+  useEffect(() => {
+    dispatch(fetchCourses());
+  }, [dispatch]);
+
+  const filteredCourses = courses.filter((course) => {
     if (selectedCategory === 'All') return true;
     return course.category === selectedCategory;
   });
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 p-6 rounded-2xl border border-red-100 text-center">
+        <p className="text-red-600 font-bold mb-2">Oops! Something went wrong.</p>
+        <p className="text-red-400 text-sm">{error}</p>
+        <button 
+          onClick={() => dispatch(fetchCourses())}
+          className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-bold hover:bg-red-700 transition-all"
+        >
+          Try Again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -128,28 +72,31 @@ const PopularCourses = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredCourses.map((course) => (
           <div
-            key={course.id}
+            key={course._id}
             className="bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group flex flex-col h-full"
           >
-            {/* Top Banner Image / Gradient */}
-            <div className={`h-36 w-full bg-gradient-to-r ${course.bannerGradient} relative p-4 flex flex-col justify-between`}>
-              <div className="flex justify-between items-start w-full">
-                {course.tags.includes('Multiple plans inside') ? (
-                  <span className="bg-white/20 backdrop-blur-md text-white text-[0.7rem] font-bold px-2 py-1 rounded border border-white/30 uppercase tracking-wider">
-                    Multiple Plans
+            {/* Top Banner Image */}
+            <div className="h-36 w-full relative overflow-hidden">
+              <img 
+                src={course.thumbnail} 
+                alt={course.title} 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent p-4 flex flex-col justify-between">
+                <div className="flex justify-between items-start w-full">
+                  <span className="bg-blue-600 text-white text-[0.7rem] font-bold px-2 py-1 rounded border border-blue-500 uppercase tracking-wider">
+                    {course.category}
                   </span>
-                ) : (
-                  <div></div>
-                )}
-                <span className={`text-[0.7rem] font-bold px-2 py-1 rounded uppercase tracking-wider ${course.status === 'Ongoing' ? 'bg-green-500/90 text-white' : 'bg-amber-500/90 text-white'}`}>
-                  {course.status}
-                </span>
-              </div>
-              <div className="text-white/80 text-sm font-medium flex items-center gap-1">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                </svg>
-                {course.startDate}
+                  <span className="text-[0.7rem] font-bold px-2 py-1 rounded uppercase tracking-wider bg-emerald-500/90 text-white">
+                    {course.level}
+                  </span>
+                </div>
+                <div className="text-white/90 text-xs font-medium flex items-center gap-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+                  </svg>
+                  Instructor: {course.instructor?.name || 'Parishram Expert'}
+                </div>
               </div>
             </div>
 
@@ -179,15 +126,14 @@ const PopularCourses = () => {
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-2xl font-extrabold text-gray-900">₹{course.price.toLocaleString('en-IN')}</span>
-                    <span className="text-sm text-gray-400 line-through font-medium">₹{course.originalPrice.toLocaleString('en-IN')}</span>
                   </div>
-                  <span className="inline-block bg-red-100 text-red-600 text-[0.7rem] font-bold px-2 py-0.5 rounded">
-                    {course.discountPercentage}% OFF
+                  <span className="inline-block bg-green-100 text-green-600 text-[0.7rem] font-bold px-2 py-0.5 rounded">
+                    Best Value
                   </span>
                 </div>
                 
-                <Link to={`/dashboard/course/${course.id}`} className="flex items-center justify-center gap-1 bg-accentPrimary hover:bg-accentPrimary/90 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg active:scale-95">
-                  Buy Now
+                <Link to={`/dashboard/course/${course._id}`} className="flex items-center justify-center gap-1 bg-accentPrimary hover:bg-accentPrimary/90 text-white px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-md hover:shadow-lg active:scale-95">
+                  Explore Now
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>

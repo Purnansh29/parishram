@@ -26,10 +26,10 @@ const Dashboard = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                   </svg>
                 </div>
-                <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2 py-1 rounded-lg">+3 this week</span>
+                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">New Student</span>
               </div>
               <p className="text-sm font-medium text-gray-500">Tests attempted</p>
-              <h3 className="text-3xl font-black text-gray-900 mt-1">42</h3>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">0</h3>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
@@ -38,14 +38,11 @@ const Dashboard = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                 </div>
-                <span className="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded-lg">Top 5%</span>
+                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Unranked</span>
               </div>
               <p className="text-sm font-medium text-gray-500">Accuracy %</p>
               <div className="flex items-center gap-2 mt-1">
-                <h3 className="text-3xl font-black text-gray-900">88.4%</h3>
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                </svg>
+                <h3 className="text-3xl font-black text-gray-900">0%</h3>
               </div>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
@@ -55,10 +52,10 @@ const Dashboard = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <span className="bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-1 rounded-lg">Silver Tier</span>
+                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Starter Tier</span>
               </div>
               <p className="text-sm font-medium text-gray-500">National Rank</p>
-              <h3 className="text-3xl font-black text-gray-900 mt-1">#1,284</h3>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">N/A</h3>
             </div>
           </div>
 
@@ -73,32 +70,31 @@ const Dashboard = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm font-bold">
                     <span className="text-gray-700">Biology</span>
-                    <span className="text-gray-400">92%</span>
+                    <span className="text-gray-400">0%</span>
                   </div>
                   <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-green-500 rounded-full" style={{ width: '92%' }}></div>
+                    <div className="h-full bg-green-500 rounded-full" style={{ width: '0%' }}></div>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between items-center text-sm font-bold">
                     <div className="flex items-center gap-2">
                       <span className="text-gray-700">Physics</span>
-                      <span className="bg-red-50 text-red-600 text-[9px] px-2 py-0.5 rounded font-black uppercase tracking-wider">Weak Area</span>
                     </div>
-                    <span className="text-gray-400">64%</span>
+                    <span className="text-gray-400">0%</span>
                   </div>
                   <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-red-400 rounded-full" style={{ width: '64%' }}></div>
+                    <div className="h-full bg-red-400 rounded-full" style={{ width: '0%' }}></div>
                   </div>
-                  <p className="text-xs text-gray-400 font-medium">Recommended: Practice "Optics" & "Thermodynamics" mcqs.</p>
+                  <p className="text-xs text-gray-400 font-medium">Take a test to see your performance breakdown.</p>
                 </div>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm font-bold">
                     <span className="text-gray-700">Chemistry</span>
-                    <span className="text-gray-400">78%</span>
+                    <span className="text-gray-400">0%</span>
                   </div>
                   <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-                    <div className="h-full bg-amber-400 rounded-full" style={{ width: '78%' }}></div>
+                    <div className="h-full bg-amber-400 rounded-full" style={{ width: '0%' }}></div>
                   </div>
                 </div>
               </div>

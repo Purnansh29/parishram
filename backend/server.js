@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import authRoutes from './routes/authRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -20,6 +21,9 @@ app.use(express.json()); // Body parser
 app.get('/', (req, res) => {
   res.send('Parishram API is running...');
 });
+
+// Auth Routes
+app.use('/api/auth', authRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);

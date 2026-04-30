@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
+import { toggleTheme } from '../features/ui/uiSlice';
 import { useNavigate } from 'react-router-dom';
 
 const DashboardHeader = ({ title = 'Overview' }) => {
   const { user } = useSelector((state) => state.auth);
+  const { theme } = useSelector((state) => state.ui);
   const dispatch = useDispatch();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -32,6 +34,23 @@ const DashboardHeader = ({ title = 'Overview' }) => {
         <h1 className="text-xl font-bold text-gray-900">{title}</h1>
       </div>
       
+      {/* Theme Toggle */}
+      <button
+        onClick={() => dispatch(toggleTheme())}
+        className="w-10 h-10 rounded-xl flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all mr-2 group"
+        title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+      >
+        {theme === 'light' ? (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 group-hover:text-amber-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-400 group-hover:text-amber-300 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        )}
+      </button>
+
       {/* Profile Dropdown Section */}
       <div className="relative" ref={dropdownRef}>
         <button 

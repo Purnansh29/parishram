@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { loginSuccess } from '../features/auth/authSlice';
+import SEO from '../components/SEO';
 
 // Yup Validation Schema
 const loginSchema = Yup.object({
@@ -37,6 +38,7 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50/30 font-sans p-6">
+      <SEO title="Login" description="Login to your Parishram dashboard to access courses, mock tests, and study analytics." />
       <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100">
         
         {/* Header */}

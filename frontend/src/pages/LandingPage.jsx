@@ -3,6 +3,7 @@ import HeroSection from '../components/HeroSection';
 import FeaturesSection from '../components/FeaturesSection';
 import PopularCourses from '../components/PopularCourses';
 import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 const testimonials = [
   {
@@ -31,6 +32,7 @@ const testimonials = [
 const LandingPage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-bgPrimary">
+      <SEO title="Parishram" description="Parishram – Affordable EdTech platform for JEE, NEET & UPSC aspirants. Smart mock tests, video lectures, analytics, and doubt-solving at just ₹499." />
       <Navbar />
       <main className="flex-1 w-full">
         <HeroSection />

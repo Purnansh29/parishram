@@ -1,22 +1,39 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import { loginSuccess } from '../features/auth/authSlice';
+
+// Yup Validation Schema
+const loginSchema = Yup.object({
+  email: Yup.string()
+    .email('Please enter a valid email address')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
+});
+
 const AuthPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginSuccess({
-      user: { name: email.split('@')[0] || 'Demo User', email: email, role: 'admin' },
-      token: 'mock-jwt-token-12345'
-    }));
-    navigate('/dashboard');
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      dispatch(loginSuccess({
+        user: { name: values.email.split('@')[0] || 'Demo User', email: values.email, role: 'admin' },
+        token: 'mock-jwt-token-12345'
+      }));
+      navigate('/dashboard');
+    },
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50/30 font-sans p-6">
@@ -41,19 +58,32 @@ const AuthPage = () => {
           <div className="h-px bg-gray-200 flex-1"></div>
         </div>
 
-        {/* Form */}
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Form with Formik */}
+        <form className="space-y-6" onSubmit={formik.handleSubmit}>
           {/* Email Address */}
           <div className="space-y-2">
             <label className="text-sm font-bold text-gray-700 block">Email Address</label>
             <input
               type="email"
+              name="email"
               placeholder="name@eduaspirant.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-700 font-medium"
-              required
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full px-5 py-3.5 bg-gray-50 border rounded-xl focus:outline-none focus:ring-2 transition-all text-gray-700 font-medium ${
+                formik.touched.email && formik.errors.email
+                  ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500'
+                  : 'border-gray-100 focus:ring-blue-500/20 focus:border-blue-500'
+              }`}
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-red-500 text-xs font-bold flex items-center gap-1 mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {formik.errors.email}
+              </p>
+            )}
           </div>
 
           {/* Password */}
@@ -65,11 +95,16 @@ const AuthPage = () => {
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
+                name="password"
                 placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-5 py-3.5 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-gray-700 font-bold text-lg tracking-widest"
-                required
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`w-full px-5 py-3.5 bg-gray-50 border rounded-xl focus:outline-none focus:ring-2 transition-all text-gray-700 font-bold text-lg tracking-widest ${
+                  formik.touched.password && formik.errors.password
+                    ? 'border-red-400 focus:ring-red-500/20 focus:border-red-500'
+                    : 'border-gray-100 focus:ring-blue-500/20 focus:border-blue-500'
+                }`}
               />
               <button 
                 type="button"
@@ -88,6 +123,14 @@ const AuthPage = () => {
                 )}
               </button>
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-500 text-xs font-bold flex items-center gap-1 mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                {formik.errors.password}
+              </p>
+            )}
           </div>
 
           {/* Remember Me */}
@@ -103,7 +146,8 @@ const AuthPage = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all transform active:scale-[0.98] mt-4"
+            disabled={formik.isSubmitting}
+            className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/20 transition-all transform active:scale-[0.98] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Login to Dashboard
           </button>

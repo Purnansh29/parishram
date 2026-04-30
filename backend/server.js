@@ -4,6 +4,7 @@ import cors from 'cors';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import authRoutes from './routes/authRoutes.js';
+import courseRoutes from './routes/courseRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 // Auth Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);

@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../features/auth/authSlice';
 const AuthPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const { login } = useAuth();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login({ name: email.split('@')[0] || 'Demo User', email: email, role: 'admin' });
+    dispatch(loginSuccess({
+      user: { name: email.split('@')[0] || 'Demo User', email: email, role: 'admin' },
+      token: 'mock-jwt-token-12345'
+    }));
     navigate('/dashboard');
   };
 

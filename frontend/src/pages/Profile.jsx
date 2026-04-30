@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
-import { useAuth } from '../context/AuthContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from '../features/auth/authSlice';
 
 const Profile = () => {
-  const { user, login } = useAuth();
+  const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || 'purnansh',
@@ -23,8 +25,8 @@ const Profile = () => {
   };
 
   const handleSave = () => {
-    // Update local context
-    login({ ...user, name: formData.name, email: formData.email });
+    // Update local state in Redux
+    dispatch(updateUser({ name: formData.name, email: formData.email }));
     setIsEditing(false);
   };
 

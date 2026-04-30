@@ -3,12 +3,14 @@ import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import PopularCourses from '../components/PopularCourses';
 import SubjectSelectionModal from '../components/SubjectSelectionModal';
+import SEO from '../components/SEO';
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      <SEO title="Dashboard" description="Your Parishram learning dashboard – track progress, access courses, and manage your study plan." />
       <Sidebar />
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         <DashboardHeader title="Overview" />

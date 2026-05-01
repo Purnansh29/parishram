@@ -15,6 +15,7 @@ const Analytics = lazy(() => import('./pages/Analytics'));
 const Profile = lazy(() => import('./pages/Profile'));
 const CourseDetail = lazy(() => import('./pages/CourseDetail'));
 const MyCourses = lazy(() => import('./pages/MyCourses'));
+const TestPlayer = lazy(() => import('./pages/TestPlayer'));
 
 // Full Screen Loader for Suspense Fallback
 const PageLoader = () => (
@@ -42,6 +43,7 @@ function App() {
             <Route path="/dashboard/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/dashboard/my-courses" element={<ProtectedRoute><MyCourses /></ProtectedRoute>} />
             <Route path="/dashboard/course/:courseId" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
+            <Route path="/dashboard/test/:id" element={<ProtectedRoute><TestPlayer /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </Router>

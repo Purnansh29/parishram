@@ -26,6 +26,30 @@ const userSchema = mongoose.Schema(
       type: String,
       default: '',
     },
+    mobile: {
+      type: String,
+      default: '',
+    },
+    city: {
+      type: String,
+      default: '',
+    },
+    class: {
+      type: String,
+      default: '',
+    },
+    board: {
+      type: String,
+      default: '',
+    },
+    exams: {
+      type: String,
+      default: '',
+    },
+    language: {
+      type: String,
+      default: '',
+    },
     enrolledCourses: [
       {
         type: mongoose.Schema.Types.ObjectId,

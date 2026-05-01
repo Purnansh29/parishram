@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Course from '../models/Course.js';
+import User from '../models/User.js';
 
 /**
  * @desc    Fetch all courses
@@ -49,4 +50,55 @@ const createCourse = asyncHandler(async (req, res) => {
   res.status(201).json(createdCourse);
 });
 
-export { getCourses, getCourseById, createCourse };
+/**
+ * @desc    Enroll in a course
+ * @route   POST /api/courses/:id/enroll
+ * @access  Private
+ */
+const enrollCourse = asyncHandler(async (req, res) => {
+  const course = await Course.findById(req.params.id);
+
+  if (!course) {
+    res.status(404);
+    throw new Error('Course not found');
+  }
+
+  const user = await User.findById(req.user._id);
+
+  // Check if already enrolled
+  const isAlreadyEnrolled = user.enrolledCourses.find(
+    (id) => id.toString() === course._id.toString()
+  );
+
+  if (isAlreadyEnrolled) {
+    res.status(400);
+    throw new Error('Already enrolled in this course');
+  }
+
+  user.enrolledCourses.push(course._id);
+  await user.save();
+
+  res.status(200).json({ message: 'Enrolled successfully', courseId: course._id });
+});
+
+/**
+ * @desc    Get user's enrolled courses
+ * @route   GET /api/courses/enrolled
+ * @access  Private
+ */
+const getEnrolledCourses = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id).populate({
+    path: 'enrolledCourses',
+    populate: { path: 'instructor', select: 'name photoUrl' }
+  });
+
+  res.json(user.enrolledCourses);
+});
+
+export { 
+  getCourses, 
+  getCourseById, 
+  createCourse, 
+  enrollCourse, 
+  getEnrolledCourses 
+};

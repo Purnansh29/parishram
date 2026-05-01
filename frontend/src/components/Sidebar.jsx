@@ -1,16 +1,19 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
 
 const Sidebar = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => state.auth);
+
   const menuItems = [
     { name: 'Overview', path: '/dashboard', icon: '📊' },
-    { name: 'Students', path: '/dashboard/students', icon: '🎓' },
-    { name: 'Teachers', path: '/dashboard/teachers', icon: '👨‍🏫' },
-    { name: 'Finance', path: '/dashboard/finance', icon: '💰' },
+    { name: 'My Courses', path: '/dashboard/my-courses', icon: '📚' },
+    { name: 'Students', path: '/dashboard/students', icon: '🎓', adminOnly: true },
+    { name: 'Teachers', path: '/dashboard/teachers', icon: '👨‍🏫', adminOnly: true },
+    { name: 'Finance', path: '/dashboard/finance', icon: '💰', adminOnly: true },
     { name: 'Mock Tests', path: '/dashboard/mock-tests', icon: '📝' },
     { name: 'Analytics', path: '/dashboard/analytics', icon: '📈' },
   ];
@@ -26,6 +29,8 @@ const Sidebar = () => {
       <div className="flex-1 py-6 px-4 overflow-y-auto">
         <nav className="flex flex-col gap-1">
           {menuItems.map((item) => {
+            if (item.adminOnly && user?.role !== 'admin') return null;
+            
             const isActive = location.pathname === item.path;
             return (
               <Link

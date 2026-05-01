@@ -26,6 +26,30 @@ const userSchema = mongoose.Schema(
       type: String,
       default: '',
     },
+    mobile: {
+      type: String,
+      default: '',
+    },
+    city: {
+      type: String,
+      default: '',
+    },
+    class: {
+      type: String,
+      default: '',
+    },
+    board: {
+      type: String,
+      default: '',
+    },
+    exams: {
+      type: String,
+      default: '',
+    },
+    language: {
+      type: String,
+      default: '',
+    },
     enrolledCourses: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -44,9 +68,9 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 };
 
 // Middleware to hash password before saving
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   if (!this.isModified('password')) {
-    next();
+    return;
   }
 
   const salt = await bcrypt.genSalt(10);

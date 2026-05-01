@@ -1,47 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import { useSelector, useDispatch } from 'react-redux';
-// import { updateUser } from '../features/auth/authSlice'; // Removed for now as not implemented in real backend yet
+import api from '../services/api';
 
 const Profile = () => {
   const { user } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState({ type: '', text: '' });
   const [formData, setFormData] = useState({
-    name: user?.name || 'purnansh',
-    mobile: '9274198483',
-    email: user?.email || 'purnansh@example.com',
-    city: 'N/A',
-    class: '12',
-    board: 'N/A',
-    exams: 'IIT-JEE',
-    language: 'N/A'
+    name: '',
+    mobile: '',
+    email: '',
+    city: '',
+    class: '',
+    board: '',
+    exams: '',
+    language: ''
   });
+
+  // Fetch real profile data from backend on mount
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const { data } = await api.get('/users/profile');
+        setFormData({
+          name: data.name || '',
+          mobile: data.mobile || '',
+          email: data.email || '',
+          city: data.city || '',
+          class: data.class || '',
+          board: data.board || '',
+          exams: data.exams || '',
+          language: data.language || ''
+        });
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+        // Fallback to Redux state
+        setFormData({
+          name: user?.name || '',
+          mobile: '',
+          email: user?.email || '',
+          city: '',
+          class: '',
+          board: '',
+          exams: '',
+          language: ''
+        });
+      }
+    };
+    fetchProfile();
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    // Note: Profile update API will be implemented in Phase 5
-    console.log('Profile update triggered:', formData);
-    setIsEditing(false);
+  const handleSave = async () => {
+    setSaving(true);
+    setMessage({ type: '', text: '' });
+    try {
+      const { data } = await api.put('/users/profile', formData);
+      // Update localStorage auth data with new profile info
+      const authData = JSON.parse(localStorage.getItem('auth'));
+      if (authData) {
+        authData.name = data.name;
+        authData.email = data.email;
+        localStorage.setItem('auth', JSON.stringify(authData));
+      }
+      setMessage({ type: 'success', text: 'Profile updated successfully!' });
+      setIsEditing(false);
+    } catch (error) {
+      setMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to update profile'
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   const handleCancel = () => {
-    setFormData({
-      name: user?.name || 'purnansh',
-      mobile: '9274198483',
-      email: user?.email || 'purnansh@example.com',
-      city: 'N/A',
-      class: '12',
-      board: 'N/A',
-      exams: 'IIT-JEE',
-      language: 'N/A'
-    });
     setIsEditing(false);
+    setMessage({ type: '', text: '' });
   };
 
   return (
@@ -51,6 +94,18 @@ const Profile = () => {
         <DashboardHeader title="Profile" />
         <main className="flex-1 p-6 lg:p-8">
           <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+
+            {/* Success/Error Messages */}
+            {message.text && (
+              <div className={`mx-8 mt-6 p-4 rounded-xl flex items-center gap-3 text-sm font-bold ${
+                message.type === 'success' 
+                  ? 'bg-green-50 border border-green-100 text-green-600' 
+                  : 'bg-red-50 border border-red-100 text-red-600'
+              }`}>
+                {message.type === 'success' ? '✅' : '❌'} {message.text}
+              </div>
+            )}
+
             <div className="flex flex-col md:flex-row">
               {/* Left Column: Avatar & Name */}
               <div className="w-full md:w-1/3 p-8 border-b md:border-b-0 md:border-r border-gray-100 flex flex-col items-center">
@@ -60,7 +115,7 @@ const Profile = () => {
                       <img src={user.photoUrl} alt="Profile" className="w-full h-full object-cover" />
                     ) : (
                       <img 
-                        src={`https://ui-avatars.com/api/?name=${formData.name}&background=FFD700&color=fff&size=256`} 
+                        src={`https://ui-avatars.com/api/?name=${formData.name || 'User'}&background=FFD700&color=fff&size=256`} 
                         alt="Profile" 
                         className="w-full h-full object-cover" 
                       />
@@ -72,9 +127,9 @@ const Profile = () => {
                     </svg>
                   </button>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-1">{formData.name}</h2>
+                <h2 className="text-2xl font-bold text-gray-900 mb-1">{formData.name || 'User'}</h2>
                 <div className="bg-amber-50 text-amber-700 px-4 py-1 rounded-full text-sm font-bold border border-amber-100 uppercase tracking-wide">
-                  NA
+                  {user?.role || 'Student'}
                 </div>
               </div>
 
@@ -92,20 +147,10 @@ const Profile = () => {
                         <span className="text-xl font-bold text-gray-900">0</span>
                         <div className="bg-gray-100 px-1.5 py-0.5 rounded text-[10px] font-bold text-gray-500 uppercase">XP</div>
                       </div>
-                      <div className="absolute top-2 right-2 text-gray-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
                     </div>
                     <div className="bg-white p-4 rounded-lg border border-indigo-100 shadow-sm relative">
                       <p className="text-xs font-semibold text-gray-400 mb-1">Highest Level</p>
                       <span className="text-xl font-bold text-gray-900">NA</span>
-                      <div className="absolute top-2 right-2 text-gray-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -127,9 +172,10 @@ const Profile = () => {
                     <div className="flex items-center gap-3">
                       <button 
                         onClick={handleSave}
-                        className="bg-accentPrimary text-white px-4 py-1.5 rounded-lg text-sm font-bold shadow-sm hover:bg-accentPrimary/90 transition-colors"
+                        disabled={saving}
+                        className="bg-accentPrimary text-white px-4 py-1.5 rounded-lg text-sm font-bold shadow-sm hover:bg-accentPrimary/90 transition-colors disabled:opacity-50"
                       >
-                        Save
+                        {saving ? 'Saving...' : 'Save'}
                       </button>
                       <button 
                         onClick={handleCancel}
@@ -145,68 +191,27 @@ const Profile = () => {
                 <div className="space-y-4 mb-8">
                   <h4 className="text-[0.75rem] font-bold text-gray-400 uppercase tracking-widest border-b border-gray-100 pb-2">Personal Details</h4>
                   <div className="grid grid-cols-1 gap-y-4">
-                    <div className="flex flex-col md:flex-row md:items-center">
-                      <span className="text-sm font-medium text-gray-500 w-40">Name</span>
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="name"
-                          value={formData.name} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
-                        />
-                      ) : (
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-gray-900">{formData.name}</span>
-                          <div className="flex items-center gap-1 bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded text-[10px] font-bold border border-indigo-100">
-                            <svg className="h-3 w-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-                            PW Student Master
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    <div className="flex flex-col md:flex-row md:items-center">
-                      <span className="text-sm font-medium text-gray-500 w-40">Mobile No</span>
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="mobile"
-                          value={formData.mobile} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
-                        />
-                      ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.mobile}</span>
-                      )}
-                    </div>
-                    <div className="flex flex-col md:flex-row md:items-center">
-                      <span className="text-sm font-medium text-gray-500 w-40">Email</span>
-                      {isEditing ? (
-                        <input 
-                          type="email" 
-                          name="email"
-                          value={formData.email} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
-                        />
-                      ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.email}</span>
-                      )}
-                    </div>
-                    <div className="flex flex-col md:flex-row md:items-center">
-                      <span className="text-sm font-medium text-gray-500 w-40">Living City/Village/Town</span>
-                      {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="city"
-                          value={formData.city} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
-                        />
-                      ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.city}</span>
-                      )}
-                    </div>
+                    {[
+                      { label: 'Name', name: 'name', type: 'text' },
+                      { label: 'Mobile No', name: 'mobile', type: 'text' },
+                      { label: 'Email', name: 'email', type: 'email' },
+                      { label: 'Living City/Village/Town', name: 'city', type: 'text' },
+                    ].map((field) => (
+                      <div key={field.name} className="flex flex-col md:flex-row md:items-center">
+                        <span className="text-sm font-medium text-gray-500 w-40">{field.label}</span>
+                        {isEditing ? (
+                          <input 
+                            type={field.type}
+                            name={field.name}
+                            value={formData[field.name]}
+                            onChange={handleChange}
+                            className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
+                          />
+                        ) : (
+                          <span className="text-sm font-bold text-gray-900">{formData[field.name] || 'N/A'}</span>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
 
@@ -217,65 +222,44 @@ const Profile = () => {
                     <div className="flex flex-col md:flex-row md:items-center">
                       <span className="text-sm font-medium text-gray-500 w-40">Class</span>
                       {isEditing ? (
-                        <select 
-                          name="class"
-                          value={formData.class} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all bg-white"
-                        >
+                        <select name="class" value={formData.class} onChange={handleChange} className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all bg-white">
+                          <option value="">Select</option>
                           <option value="10">Class 10</option>
                           <option value="11">Class 11</option>
                           <option value="12">Class 12</option>
                           <option value="Dropper">Dropper</option>
                         </select>
                       ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.class}</span>
+                        <span className="text-sm font-bold text-gray-900">{formData.class || 'N/A'}</span>
                       )}
                     </div>
                     <div className="flex flex-col md:flex-row md:items-center">
                       <span className="text-sm font-medium text-gray-500 w-40">Board/State Board</span>
                       {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="board"
-                          value={formData.board} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
-                        />
+                        <input type="text" name="board" value={formData.board} onChange={handleChange} className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all" />
                       ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.board}</span>
+                        <span className="text-sm font-bold text-gray-900">{formData.board || 'N/A'}</span>
                       )}
                     </div>
                     <div className="flex flex-col md:flex-row md:items-center">
                       <span className="text-sm font-medium text-gray-500 w-40">Exams</span>
                       {isEditing ? (
-                        <input 
-                          type="text" 
-                          name="exams"
-                          value={formData.exams} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all"
-                        />
+                        <input type="text" name="exams" value={formData.exams} onChange={handleChange} className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all" />
                       ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.exams}</span>
+                        <span className="text-sm font-bold text-gray-900">{formData.exams || 'N/A'}</span>
                       )}
                     </div>
                     <div className="flex flex-col md:flex-row md:items-center">
                       <span className="text-sm font-medium text-gray-500 w-40">Language</span>
                       {isEditing ? (
-                        <select 
-                          name="language"
-                          value={formData.language} 
-                          onChange={handleChange}
-                          className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all bg-white"
-                        >
+                        <select name="language" value={formData.language} onChange={handleChange} className="flex-1 max-w-xs border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-2 focus:ring-accentPrimary/20 focus:border-accentPrimary outline-none transition-all bg-white">
+                          <option value="">Select</option>
                           <option value="English">English</option>
                           <option value="Hindi">Hindi</option>
                           <option value="Hinglish">Hinglish</option>
-                          <option value="N/A">N/A</option>
                         </select>
                       ) : (
-                        <span className="text-sm font-bold text-gray-900">{formData.language}</span>
+                        <span className="text-sm font-bold text-gray-900">{formData.language || 'N/A'}</span>
                       )}
                     </div>
                   </div>

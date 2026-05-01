@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import { fetchCourses, enrollInCourse, fetchMyCourses } from '../features/courses/courseSlice';
+import PaymentModal from '../components/PaymentModal';
 
 // Real curriculum logic will be added here or fetched from modules field in Course model
 
@@ -18,6 +19,7 @@ const CourseDetail = () => {
   const [activeLesson, setActiveLesson] = useState(null);
   const [expandedChapter, setExpandedChapter] = useState(1);
   const [activeTab, setActiveTab] = useState('Overview');
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
 
   useEffect(() => {
     if (courses.length === 0) {
@@ -28,14 +30,17 @@ const CourseDetail = () => {
 
   const isEnrolled = myCourses.some(c => c._id === courseId);
 
-  const handleEnroll = async () => {
+  const handleEnrollClick = () => {
     if (isEnrolled) {
-      // Logic to start learning - maybe scroll to curriculum or play first video
       const firstModule = course?.modules?.[0];
       if (firstModule) setActiveLesson(firstModule);
       return;
     }
+    setIsPaymentModalOpen(true);
+  };
 
+  const handlePaymentSuccess = async () => {
+    setIsPaymentModalOpen(false);
     const result = await dispatch(enrollInCourse(courseId));
     if (enrollInCourse.fulfilled.match(result)) {
       dispatch(fetchMyCourses()); // Refresh enrolled list
@@ -111,7 +116,7 @@ const CourseDetail = () => {
                   </div>
                 </div>
                 <button 
-                  onClick={handleEnroll}
+                  onClick={handleEnrollClick}
                   disabled={enrollLoading}
                   className={`w-full mt-6 py-4 text-white font-black text-lg rounded-2xl shadow-lg transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 ${
                     isEnrolled 
@@ -405,6 +410,13 @@ const CourseDetail = () => {
           </div>
         </main>
       </div>
+
+      <PaymentModal 
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        course={course}
+        onPaymentSuccess={handlePaymentSuccess}
+      />
     </div>
   );
 };

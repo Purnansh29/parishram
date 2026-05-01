@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import authRoutes from './routes/authRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -23,9 +24,10 @@ app.get('/', (req, res) => {
   res.send('Parishram API is running...');
 });
 
-// Auth Routes
+// API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
+app.use('/api/users', userRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);

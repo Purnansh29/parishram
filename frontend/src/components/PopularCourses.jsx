@@ -112,13 +112,13 @@ const PopularCourses = () => {
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
                   </svg>
-                  {course.classLevel || 'Class 11/12'}
+                  {course.classLevel}
                 </span>
                 <span className="flex items-center gap-1 bg-gray-100 text-gray-700 text-xs font-semibold px-2.5 py-1 rounded-md">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 5 7.5 5s.988.73 1.256 1.321c.515 1.137.95 2.502 1.214 3.99A10.02 10.02 0 0110 10.5c.348 0 .692.015 1.03.045.264-1.488.699-2.853 1.214-3.99C12.512 5.73 12.974 5 13.5 5s.988.73 1.256 1.321c.515 1.137.95 2.502 1.214 3.99.338-.03.682-.045 1.03-.045.348 0 .692.015 1.03.045a11.944 11.944 0 011.638 2.051 6.002 6.002 0 01-3.57 3.653A10.038 10.038 0 0110 14.5a10.038 10.038 0 01-3.468-1.547 6.002 6.002 0 01-3.57-3.653 11.944 11.944 0 011.638-2.051C4.945 7.42 4.654 7.712 4.332 8.027z" clipRule="evenodd" />
                   </svg>
-                  {course.language || 'Hinglish'}
+                  {course.language}
                 </span>
               </div>
 

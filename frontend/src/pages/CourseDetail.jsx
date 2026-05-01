@@ -1,114 +1,54 @@
-import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
+import { fetchCourses, enrollInCourse, fetchMyCourses } from '../features/courses/courseSlice';
 
-const COURSES_CONTENT = {
-  1: {
-    title: 'Quantum JEE 2027',
-    category: 'JEE',
-    price: 499,
-    originalPrice: 4999,
-    description: 'Complete JEE Main & Advanced preparation with 500+ hours of video lectures, topic-wise notes, and daily practice problems.',
-    instructor: 'Dr. Rajesh Verma',
-    duration: '12 Months',
-    chapters: [
-      {
-        id: 1, title: 'Mathematics — Algebra', lessons: [
-          { id: 1, title: 'Quadratic Equations — Theory', type: 'video', duration: '45 min', videoUrl: 'https://www.youtube.com/embed/ZHkOlKXoH1c', free: true },
-          { id: 2, title: 'Quadratic Equations — Practice', type: 'notes', pages: 12, free: true },
-          { id: 3, title: 'Complex Numbers', type: 'video', duration: '38 min', videoUrl: 'https://www.youtube.com/embed/SP-YJe7Vldo', free: false },
-          { id: 4, title: 'Complex Numbers — Notes PDF', type: 'notes', pages: 18, free: false },
-        ]
-      },
-      {
-        id: 2, title: 'Physics — Mechanics', lessons: [
-          { id: 5, title: 'Newton\'s Laws of Motion', type: 'video', duration: '52 min', videoUrl: 'https://www.youtube.com/embed/kKKM8Y-u7ds', free: true },
-          { id: 6, title: 'Work, Energy & Power', type: 'video', duration: '41 min', videoUrl: 'https://www.youtube.com/embed/w4QFJb9a8vo', free: false },
-          { id: 7, title: 'Mechanics Formula Sheet', type: 'notes', pages: 8, free: true },
-        ]
-      },
-      {
-        id: 3, title: 'Chemistry — Physical', lessons: [
-          { id: 8, title: 'Mole Concept & Stoichiometry', type: 'video', duration: '48 min', videoUrl: 'https://www.youtube.com/embed/AsqEkF7hcII', free: true },
-          { id: 9, title: 'Atomic Structure', type: 'video', duration: '55 min', videoUrl: 'https://www.youtube.com/embed/LhveTGblGHY', free: false },
-          { id: 10, title: 'Physical Chemistry Notes', type: 'notes', pages: 22, free: false },
-        ]
-      },
-    ]
-  },
-  2: {
-    title: 'Astra JEE 2027',
-    category: 'JEE',
-    price: 599,
-    originalPrice: 5999,
-    description: 'Dropper batch with intensive revision, PYQ analysis, and mock test series for JEE Main & Advanced.',
-    instructor: 'Prof. Ankit Sharma',
-    duration: '8 Months',
-    chapters: [
-      {
-        id: 1, title: 'Rapid Revision — Physics', lessons: [
-          { id: 1, title: 'Electrostatics Complete', type: 'video', duration: '60 min', videoUrl: 'https://www.youtube.com/embed/ZHkOlKXoH1c', free: true },
-          { id: 2, title: 'Electrostatics Notes', type: 'notes', pages: 15, free: true },
-        ]
-      },
-    ]
-  },
-  3: {
-    title: 'Genesis NEET 2027',
-    category: 'NEET',
-    price: 499,
-    originalPrice: 4499,
-    description: 'Foundation to advanced NEET preparation covering Biology, Physics, and Chemistry with NCERT-aligned content.',
-    instructor: 'Dr. Priya Mehta',
-    duration: '12 Months',
-    chapters: [
-      {
-        id: 1, title: 'Biology — Cell Biology', lessons: [
-          { id: 1, title: 'Cell Structure & Function', type: 'video', duration: '50 min', videoUrl: 'https://www.youtube.com/embed/URUJD5NEXC8', free: true },
-          { id: 2, title: 'Cell Division — Mitosis & Meiosis', type: 'video', duration: '42 min', videoUrl: 'https://www.youtube.com/embed/f-ldPgEfAHI', free: true },
-          { id: 3, title: 'NCERT Biology Notes Ch.8', type: 'notes', pages: 20, free: true },
-        ]
-      },
-      {
-        id: 2, title: 'Biology — Human Physiology', lessons: [
-          { id: 4, title: 'Digestive System', type: 'video', duration: '44 min', videoUrl: 'https://www.youtube.com/embed/ZHkOlKXoH1c', free: false },
-          { id: 5, title: 'Breathing & Exchange of Gases', type: 'video', duration: '38 min', videoUrl: 'https://www.youtube.com/embed/ZHkOlKXoH1c', free: false },
-        ]
-      },
-    ]
-  },
-};
-
-// Fallback for courses 4-6
-[4,5,6].forEach(id => {
-  if (!COURSES_CONTENT[id]) {
-    COURSES_CONTENT[id] = {
-      title: id === 4 ? 'BioCore NEET 2027' : id === 5 ? 'Sankalp UPSC 2027' : 'Rajpath UPSC 2027',
-      category: id <= 4 ? 'NEET' : 'UPSC',
-      price: id <= 4 ? 499 : id === 5 ? 999 : 1299,
-      originalPrice: id <= 4 ? 4999 : id === 5 ? 9999 : 12999,
-      description: 'Comprehensive preparation with video lectures, notes, and mock tests.',
-      instructor: 'Expert Faculty',
-      duration: '10 Months',
-      chapters: [
-        {
-          id: 1, title: 'Chapter 1 — Introduction', lessons: [
-            { id: 1, title: 'Course Overview', type: 'video', duration: '30 min', videoUrl: 'https://www.youtube.com/embed/ZHkOlKXoH1c', free: true },
-            { id: 2, title: 'Study Plan & Notes', type: 'notes', pages: 10, free: true },
-          ]
-        }
-      ]
-    };
-  }
-});
+// Real curriculum logic will be added here or fetched from modules field in Course model
 
 const CourseDetail = () => {
   const { courseId } = useParams();
-  const course = COURSES_CONTENT[courseId];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const { courses, myCourses, loading, enrollLoading, error } = useSelector((state) => state.courses);
+  const course = courses.find(c => c._id === courseId);
+  
   const [activeLesson, setActiveLesson] = useState(null);
   const [expandedChapter, setExpandedChapter] = useState(1);
   const [activeTab, setActiveTab] = useState('Overview');
+
+  useEffect(() => {
+    if (courses.length === 0) {
+      dispatch(fetchCourses());
+    }
+    dispatch(fetchMyCourses());
+  }, [dispatch, courses.length]);
+
+  const isEnrolled = myCourses.some(c => c._id === courseId);
+
+  const handleEnroll = async () => {
+    if (isEnrolled) {
+      // Logic to start learning - maybe scroll to curriculum or play first video
+      const firstModule = course?.modules?.[0];
+      if (firstModule) setActiveLesson(firstModule);
+      return;
+    }
+
+    const result = await dispatch(enrollInCourse(courseId));
+    if (enrollInCourse.fulfilled.match(result)) {
+      dispatch(fetchMyCourses()); // Refresh enrolled list
+    }
+  };
+
+  if (loading && !course) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
   if (!course) {
     return (
@@ -122,8 +62,9 @@ const CourseDetail = () => {
     );
   }
 
-  const totalLessons = course.chapters.reduce((sum, ch) => sum + ch.lessons.length, 0);
-  const totalVideos = course.chapters.reduce((sum, ch) => sum + ch.lessons.filter(l => l.type === 'video').length, 0);
+  // Helper stats (placeholders for now until modules are fully implemented in DB)
+  const totalLessons = course.modules?.length || 0;
+  const totalVideos = course.modules?.filter(l => l.type === 'video').length || 0;
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -154,8 +95,8 @@ const CourseDetail = () => {
                 <h1 className="text-4xl lg:text-5xl font-black text-gray-900 mb-4 tracking-tight">{course.title}</h1>
                 <p className="text-gray-500 text-lg max-w-2xl mb-6 leading-relaxed">{course.description}</p>
                 <div className="flex flex-wrap items-center gap-6 text-sm text-gray-600 font-bold">
-                  <span className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">👨‍🏫 {course.instructor}</span>
-                  <span className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">⏱️ {course.duration}</span>
+                  <span className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">👨‍🏫 {course.instructor?.name || 'Expert Faculty'}</span>
+                  <span className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">⏱️ {course.duration || '12 Months'}</span>
                   <span className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">📚 {totalLessons} Lessons</span>
                   <span className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">🎬 {totalVideos} Videos</span>
                 </div>
@@ -163,14 +104,31 @@ const CourseDetail = () => {
               <div className="bg-gradient-to-b from-gray-50 to-white rounded-3xl p-8 text-center min-w-[280px] border border-gray-100 shadow-sm relative overflow-hidden group">
                 <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-accentPrimary to-purple-500"></div>
                 <div className="flex items-center justify-center gap-3 mb-2">
-                  <p className="text-5xl font-black text-gray-900">₹{course.price}</p>
+                  <p className="text-5xl font-black text-gray-900">₹{course.price.toLocaleString('en-IN')}</p>
                   <div className="text-left">
-                    <p className="text-sm text-gray-400 line-through decoration-red-400/50">₹{course.originalPrice}</p>
+                    <p className="text-sm text-gray-400 line-through decoration-red-400/50">₹{(course.price * 10).toLocaleString('en-IN')}</p>
                     <span className="inline-block bg-red-100 text-red-600 text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded border border-red-200">90% OFF</span>
                   </div>
                 </div>
-                <button className="w-full mt-6 py-4 bg-accentPrimary text-white font-black text-lg rounded-2xl shadow-[0_8px_30px_rgb(59,130,246,0.3)] hover:shadow-[0_8px_30px_rgb(59,130,246,0.5)] transition-all hover:-translate-y-1 active:scale-95 group-hover:bg-blue-600">
-                  Enroll Now
+                <button 
+                  onClick={handleEnroll}
+                  disabled={enrollLoading}
+                  className={`w-full mt-6 py-4 text-white font-black text-lg rounded-2xl shadow-lg transition-all hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 ${
+                    isEnrolled 
+                      ? 'bg-emerald-500 shadow-emerald-200/50 hover:bg-emerald-600' 
+                      : 'bg-accentPrimary shadow-blue-200/50 hover:bg-blue-600'
+                  } ${enrollLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                >
+                  {enrollLoading ? (
+                    <div className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  ) : isEnrolled ? (
+                    <>
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Start Learning
+                    </>
+                  ) : 'Enroll Now'}
                 </button>
                 <p className="text-xs text-gray-400 font-medium mt-4">Includes full lifetime access</p>
               </div>
@@ -404,54 +362,44 @@ const CourseDetail = () => {
             <div className="bg-white rounded-[2rem] border border-gray-100 shadow-xl shadow-gray-200/40 overflow-hidden h-fit sticky top-6">
               <div className="p-8 border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white">
                 <h3 className="text-2xl font-black text-gray-900 mb-1">📖 Curriculum</h3>
-                <p className="text-sm font-bold text-gray-400">{course.chapters.length} Chapters • {totalLessons} Lessons</p>
+                <p className="text-sm font-bold text-gray-400">{course.modules?.length || 0} Modules • {totalLessons} Lessons</p>
               </div>
               <div className="divide-y divide-gray-100 max-h-[800px] overflow-y-auto scrollbar-hide">
-                {course.chapters.map((chapter) => (
-                  <div key={chapter.id}>
-                    <button
-                      onClick={() => setExpandedChapter(expandedChapter === chapter.id ? null : chapter.id)}
-                      className="w-full px-8 py-5 flex items-center justify-between hover:bg-gray-50 transition-colors text-left group"
-                    >
-                      <span className="font-black text-gray-800 group-hover:text-accentPrimary transition-colors">{chapter.title}</span>
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${expandedChapter === chapter.id ? 'bg-accentPrimary text-white' : 'bg-gray-100 text-gray-500 group-hover:bg-blue-50 group-hover:text-accentPrimary'}`}>
-                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 transition-transform duration-300 ${expandedChapter === chapter.id ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </button>
-                    {expandedChapter === chapter.id && (
-                      <div className="bg-gray-50/50 pb-3">
-                        {chapter.lessons.map((lesson) => (
-                          <button
-                            key={lesson.id}
-                            onClick={() => lesson.free ? setActiveLesson(lesson) : null}
-                            className={`w-full px-8 py-4 flex items-center gap-4 text-left transition-all ${
-                              activeLesson?.id === lesson.id 
-                                ? 'bg-white shadow-sm border-l-4 border-accentPrimary relative z-10' 
-                                : 'hover:bg-white hover:shadow-sm border-l-4 border-transparent'
-                            } ${!lesson.free ? 'opacity-60 cursor-not-allowed grayscale' : 'cursor-pointer'}`}
-                          >
-                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-sm border ${
-                              activeLesson?.id === lesson.id ? 'bg-blue-50 border-blue-100 text-accentPrimary' : 'bg-white border-gray-100'
-                            }`}>
-                              {lesson.type === 'video' ? '▶️' : '📄'}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className={`font-bold truncate text-sm mb-0.5 ${activeLesson?.id === lesson.id ? 'text-accentPrimary' : 'text-gray-700'}`}>{lesson.title}</p>
-                              <p className="text-[11px] font-bold text-gray-400">{lesson.type === 'video' ? lesson.duration : `${lesson.pages} pages`}</p>
-                            </div>
-                            {lesson.free ? (
-                              <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-1 rounded-md shadow-sm">FREE</span>
-                            ) : (
-                              <span className="text-[10px] font-black text-amber-600 bg-amber-50 border border-amber-100 px-2 py-1 rounded-md shadow-sm">🔒 PRO</span>
-                            )}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                <div className="p-4 bg-gray-50/50">
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4 px-4">Course Content</p>
+                  {course.modules && course.modules.length > 0 ? (
+                    course.modules.map((module, index) => (
+                      <button
+                        key={module._id || index}
+                        onClick={() => (isEnrolled || module.free) ? setActiveLesson(module) : null}
+                        className={`w-full px-6 py-4 flex items-center gap-4 text-left transition-all rounded-2xl mb-2 ${
+                          activeLesson?._id === module._id 
+                            ? 'bg-white shadow-md border-l-4 border-accentPrimary' 
+                            : 'hover:bg-white hover:shadow-sm border-l-4 border-transparent'
+                        } ${(!isEnrolled && !module.free) ? 'opacity-60 cursor-not-allowed grayscale' : 'cursor-pointer'}`}
+                      >
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-sm border ${
+                          activeLesson?._id === module._id ? 'bg-blue-50 border-blue-100 text-accentPrimary' : 'bg-white border-gray-100'
+                        }`}>
+                          {module.type === 'video' ? '▶️' : '📄'}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className={`font-bold truncate text-sm mb-0.5 ${activeLesson?._id === module._id ? 'text-accentPrimary' : 'text-gray-700'}`}>{module.title}</p>
+                          <p className="text-[11px] font-bold text-gray-400">{module.duration ? `${module.duration} min` : 'Notes'}</p>
+                        </div>
+                        {(isEnrolled || module.free) ? (
+                          <span className="text-[10px] font-black text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-1 rounded-md shadow-sm">ACCESS</span>
+                        ) : (
+                          <span className="text-[10px] font-black text-amber-600 bg-amber-50 border border-amber-100 px-2 py-1 rounded-md shadow-sm">🔒 LOCK</span>
+                        )}
+                      </button>
+                    ))
+                  ) : (
+                    <div className="p-8 text-center">
+                      <p className="text-gray-400 text-sm font-medium">No modules added yet.</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../components/Sidebar';
 import DashboardHeader from '../components/DashboardHeader';
 import PopularCourses from '../components/PopularCourses';
 import SubjectSelectionModal from '../components/SubjectSelectionModal';
 import SEO from '../components/SEO';
+import api from '../services/api';
 
 const Dashboard = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [stats, setStats] = useState({ totalStudents: 0, totalTeachers: 0, totalUsers: 0 });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const { data } = await api.get('/users/stats');
+        setStats(data);
+      } catch (error) {
+        console.error('Failed to fetch stats:', error);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
@@ -17,45 +31,44 @@ const Dashboard = () => {
         <main className="flex-1 p-6 lg:p-8 space-y-8">
           
           {/* Top Statistics Cards */}
-          {/* ... (keep existing cards) ... */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
-                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">New Student</span>
+                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Real-time</span>
               </div>
-              <p className="text-sm font-medium text-gray-500">Tests attempted</p>
-              <h3 className="text-3xl font-black text-gray-900 mt-1">0</h3>
+              <p className="text-sm font-medium text-gray-500">Total Registered Students</p>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">{stats.totalStudents}</h3>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
                 </div>
-                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Unranked</span>
+                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Real-time</span>
               </div>
-              <p className="text-sm font-medium text-gray-500">Accuracy %</p>
+              <p className="text-sm font-medium text-gray-500">Available Courses</p>
               <div className="flex items-center gap-2 mt-1">
-                <h3 className="text-3xl font-black text-gray-900">0%</h3>
+                <h3 className="text-3xl font-black text-gray-900">10</h3>
               </div>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-start justify-between mb-4">
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                 </div>
-                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Starter Tier</span>
+                <span className="bg-gray-100 text-gray-500 text-[10px] font-bold px-2 py-1 rounded-lg">Real-time</span>
               </div>
-              <p className="text-sm font-medium text-gray-500">National Rank</p>
-              <h3 className="text-3xl font-black text-gray-900 mt-1">N/A</h3>
+              <p className="text-sm font-medium text-gray-500">Total Teachers</p>
+              <h3 className="text-3xl font-black text-gray-900 mt-1">{stats.totalTeachers}</h3>
             </div>
           </div>
 

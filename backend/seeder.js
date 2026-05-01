@@ -112,7 +112,35 @@ const importData = async () => {
       }
     ];
 
-    await Course.insertMany(sampleCourses);
+    const sampleModules = [
+      {
+        title: 'Introduction to the Course',
+        type: 'video',
+        videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', // Placeholder
+        duration: 5,
+        free: true,
+      },
+      {
+        title: 'Chapter 1: Basic Concepts',
+        type: 'video',
+        videoUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY', // Placeholder
+        duration: 45,
+        free: false,
+      },
+      {
+        title: 'Chapter 1: Notes',
+        type: 'pdf',
+        pages: 12,
+        free: false,
+      }
+    ];
+
+    const coursesWithModules = sampleCourses.map(course => ({
+      ...course,
+      modules: sampleModules
+    }));
+
+    await Course.insertMany(coursesWithModules);
 
     console.log('Data Imported Successfully!');
     process.exit();

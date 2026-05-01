@@ -2,8 +2,11 @@ import mongoose from 'mongoose';
 
 const moduleSchema = mongoose.Schema({
   title: { type: String, required: true },
-  videoUrl: { type: String, required: true },
-  duration: { type: Number, required: true }, // in minutes
+  type: { type: String, enum: ['video', 'pdf'], default: 'video' },
+  videoUrl: { type: String },
+  duration: { type: Number }, // in minutes (for videos)
+  pages: { type: Number },   // for PDFs
+  free: { type: Boolean, default: false },
 });
 
 const courseSchema = mongoose.Schema(

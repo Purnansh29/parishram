@@ -109,4 +109,37 @@ const getDashboardStats = asyncHandler(async (req, res) => {
   });
 });
 
-export { getUserProfile, updateUserProfile, getUsers, deleteUser, getDashboardStats };
+/**
+ * @desc    Change user password
+ * @route   PUT /api/users/change-password
+ * @access  Private
+ */
+const changePassword = asyncHandler(async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  // Verify current password
+  const isMatch = await user.matchPassword(currentPassword);
+  if (!isMatch) {
+    res.status(400);
+    throw new Error('Current password is incorrect');
+  }
+
+  if (newPassword.length < 6) {
+    res.status(400);
+    throw new Error('New password must be at least 6 characters');
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res.json({ message: 'Password changed successfully' });
+});
+
+export { getUserProfile, updateUserProfile, getUsers, deleteUser, getDashboardStats, changePassword };

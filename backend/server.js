@@ -6,6 +6,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 import authRoutes from './routes/authRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import testRoutes from './routes/testRoutes.js';
 
 // Load env vars
 dotenv.config();
@@ -28,6 +29,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/tests', testRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);

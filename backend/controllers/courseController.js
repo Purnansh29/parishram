@@ -95,10 +95,44 @@ const getEnrolledCourses = asyncHandler(async (req, res) => {
   res.json(user.enrolledCourses);
 });
 
+/**
+ * @desc    Update a course
+ * @route   PUT /api/courses/:id
+ * @access  Private/Teacher/Admin
+ */
+const updateCourse = asyncHandler(async (req, res) => {
+  const { title, description, price, category, level, thumbnail, modules } = req.body;
+
+  const course = await Course.findById(req.params.id);
+
+  if (course) {
+    // Check if user is instructor or admin
+    if (course.instructor.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      res.status(401);
+      throw new Error('Not authorized to update this course');
+    }
+
+    course.title = title || course.title;
+    course.description = description || course.description;
+    course.price = price !== undefined ? price : course.price;
+    course.category = category || course.category;
+    course.level = level || course.level;
+    course.thumbnail = thumbnail || course.thumbnail;
+    course.modules = modules || course.modules;
+
+    const updatedCourse = await course.save();
+    res.json(updatedCourse);
+  } else {
+    res.status(404);
+    throw new Error('Course not found');
+  }
+});
+
 export { 
   getCourses, 
   getCourseById, 
   createCourse, 
+  updateCourse,
   enrollCourse, 
   getEnrolledCourses 
 };

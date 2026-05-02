@@ -5,6 +5,7 @@ import {
   getUsers,
   deleteUser,
   getDashboardStats,
+  changePassword,
 } from '../controllers/userController.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
 
@@ -15,9 +16,11 @@ router.route('/profile')
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
 
-// Admin only routes
+router.put('/change-password', protect, changePassword);
+
+// Admin + Teacher routes
 router.get('/', protect, authorize('admin'), getUsers);
-router.get('/stats', protect, authorize('admin'), getDashboardStats);
+router.get('/stats', protect, authorize('admin', 'teacher'), getDashboardStats);
 router.delete('/:id', protect, authorize('admin'), deleteUser);
 
 export default router;

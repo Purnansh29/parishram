@@ -29,9 +29,9 @@ const DashboardHeader = ({ title = 'Overview' }) => {
   };
 
   return (
-    <header className="bg-white border-b border-gray-200 h-16 flex items-center px-6 sticky top-0 z-10">
-      <div className="flex-1">
-        <h1 className="text-xl font-bold text-gray-900">{title}</h1>
+    <header className="bg-white border-b border-gray-200 h-16 flex items-center px-4 md:px-6 sticky top-0 z-10">
+      <div className="flex-1 min-w-0">
+        <h1 className="text-lg md:text-xl font-bold text-gray-900 truncate">{title}</h1>
       </div>
       
       {/* Theme Toggle */}

@@ -1,7 +1,11 @@
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
+import StatsCounter from '../components/StatsCounter';
 import FeaturesSection from '../components/FeaturesSection';
+import HowItWorksSection from '../components/HowItWorksSection';
 import PopularCourses from '../components/PopularCourses';
+import PricingSection from '../components/PricingSection';
+import FAQSection from '../components/FAQSection';
 import Footer from '../components/Footer';
 import SEO from '../components/SEO';
 
@@ -35,10 +39,19 @@ const LandingPage = () => {
       <SEO title="Parishram" description="Parishram – Affordable EdTech platform for JEE, NEET & UPSC aspirants. Smart mock tests, video lectures, analytics, and doubt-solving at just ₹499." />
       <Navbar />
       <main className="flex-1 w-full">
+        {/* 1. Hero */}
         <HeroSection />
+
+        {/* 2. Stats Counter */}
+        <StatsCounter />
+
+        {/* 3. Features */}
         <FeaturesSection />
-        
-        {/* Popular Courses Section */}
+
+        {/* 4. How It Works */}
+        <HowItWorksSection />
+
+        {/* 5. Popular Courses */}
         <section className="py-24 bg-gray-50/50" id="courses">
           <div className="max-w-[1200px] mx-auto px-8">
             <div className="text-center mb-16">
@@ -54,7 +67,10 @@ const LandingPage = () => {
           </div>
         </section>
 
-        {/* Testimonials Section */}
+        {/* 6. Pricing */}
+        <PricingSection />
+
+        {/* 7. Testimonials */}
         <section className="py-24 bg-white">
           <div className="max-w-[1200px] mx-auto px-8">
             <div className="text-center mb-16">
@@ -93,6 +109,9 @@ const LandingPage = () => {
             </div>
           </div>
         </section>
+
+        {/* 8. FAQ */}
+        <FAQSection />
       </main>
       <Footer />
     </div>

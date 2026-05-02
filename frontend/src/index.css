@@ -11,17 +11,32 @@
   --color-accentPrimary: #4f46e5;
   --color-accentSecondary: #818cf8;
   --color-accentWarm: #f43f5e;
+  --color-teacherPrimary: #7c3aed;
+  --color-teacherSecondary: #a78bfa;
   --color-borderColor: rgba(15, 23, 42, 0.1);
   --color-bgGlass: rgba(255, 255, 255, 0.6);
   
   --background-image-accent-gradient: linear-gradient(135deg, #6c5ce7, #a29bfe, #fd79a8);
+  --background-image-teacher-gradient: linear-gradient(135deg, #7c3aed, #c084fc, #818cf8);
 
   @keyframes float-glow {
     0% { transform: translate(0, 0); }
     100% { transform: translate(50px, 30px); }
   }
+  @keyframes float-glow-reverse {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-40px, -20px); }
+  }
   @keyframes fade-in-up {
     0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+  }
+  @keyframes scroll-reveal {
+    0% { opacity: 0; transform: translateY(60px); }
     100% { opacity: 1; transform: translateY(0); }
   }
 }
@@ -59,4 +74,15 @@
 }
 ::-webkit-scrollbar-thumb {
   @apply bg-accentPrimary rounded-full;
+}
+
+/* Mobile Bottom Nav Safe Area */
+@media (max-width: 767px) {
+  main {
+    padding-bottom: 5rem !important;
+  }
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }

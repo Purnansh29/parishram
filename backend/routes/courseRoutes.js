@@ -3,6 +3,7 @@ import {
   getCourses,
   getCourseById,
   createCourse,
+  updateCourse,
   enrollCourse,
   getEnrolledCourses,
 } from '../controllers/courseController.js';
@@ -17,7 +18,8 @@ router.route('/')
 router.get('/my-courses', protect, getEnrolledCourses);
 
 router.route('/:id')
-  .get(getCourseById);
+  .get(getCourseById)
+  .put(protect, authorize('teacher', 'admin'), updateCourse);
 
 router.post('/:id/enroll', protect, enrollCourse);
 

@@ -15,6 +15,15 @@ const Analytics = lazy(() => import('./pages/Analytics'));
 const Profile = lazy(() => import('./pages/Profile'));
 const CourseDetail = lazy(() => import('./pages/CourseDetail'));
 const MyCourses = lazy(() => import('./pages/MyCourses'));
+const TestPlayer = lazy(() => import('./pages/TestPlayer'));
+
+// Teacher Pages
+const TeacherCourses = lazy(() => import('./pages/teacher/TeacherCourses'));
+const CreateCourse = lazy(() => import('./pages/teacher/CreateCourse'));
+const ManageModules = lazy(() => import('./pages/teacher/ManageModules'));
+const ManageTests = lazy(() => import('./pages/teacher/ManageTests'));
+const CreateTest = lazy(() => import('./pages/teacher/CreateTest'));
+const StudentPerformance = lazy(() => import('./pages/teacher/StudentPerformance'));
 
 // Full Screen Loader for Suspense Fallback
 const PageLoader = () => (
@@ -42,6 +51,15 @@ function App() {
             <Route path="/dashboard/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/dashboard/my-courses" element={<ProtectedRoute><MyCourses /></ProtectedRoute>} />
             <Route path="/dashboard/course/:courseId" element={<ProtectedRoute><CourseDetail /></ProtectedRoute>} />
+            <Route path="/dashboard/test/:id" element={<ProtectedRoute><TestPlayer /></ProtectedRoute>} />
+            
+            {/* Teacher Routes */}
+            <Route path="/dashboard/teacher/courses" element={<ProtectedRoute role="teacher"><TeacherCourses /></ProtectedRoute>} />
+            <Route path="/dashboard/teacher/courses/create" element={<ProtectedRoute role="teacher"><CreateCourse /></ProtectedRoute>} />
+            <Route path="/dashboard/teacher/courses/:id/manage" element={<ProtectedRoute role="teacher"><ManageModules /></ProtectedRoute>} />
+            <Route path="/dashboard/teacher/tests" element={<ProtectedRoute role="teacher"><ManageTests /></ProtectedRoute>} />
+            <Route path="/dashboard/teacher/tests/create" element={<ProtectedRoute role="teacher"><CreateTest /></ProtectedRoute>} />
+            <Route path="/dashboard/teacher/performance" element={<ProtectedRoute role="teacher"><StudentPerformance /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </Router>

@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+// Debugging: Check if environment variable is being picked up
+console.log('Checking API URL:', import.meta.env.VITE_API_URL);
+
 // Create an Axios instance with the backend base URL
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',

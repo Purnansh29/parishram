@@ -14,11 +14,32 @@ const importData = async () => {
     await Course.deleteMany();
 
     // Find the first user to be the instructor (assuming you created one)
-    const adminUser = await User.findOne({});
+    // Find or create an admin user
+    let adminUser = await User.findOne({ email: 'patelpurnansh30@gmail.com' });
 
     if (!adminUser) {
-      console.error('No user found! Please register an account first via the UI.');
-      process.exit(1);
+      console.log('Admin user not found. Creating a new one...');
+      adminUser = await User.create({
+        name: 'Purnansh Patel',
+        email: 'patelpurnansh30@gmail.com',
+        password: 'Purnansh@123',
+        role: 'admin'
+      });
+      console.log('Admin user created successfully!');
+    }
+
+    // Find or create a teacher user
+    let teacherUser = await User.findOne({ email: 'teacher@parishram.com' });
+
+    if (!teacherUser) {
+      console.log('Teacher user not found. Creating a new one...');
+      teacherUser = await User.create({
+        name: 'Teacher Account',
+        email: 'teacher@parishram.com',
+        password: 'Teacher@123',
+        role: 'teacher'
+      });
+      console.log('Teacher user created successfully!');
     }
 
     const sampleCourses = [

@@ -8,7 +8,7 @@ const TestPlayer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   
-  const { currentTest: test, loading, submitSuccess, submitResult } = useSelector((state) => state.tests);
+  const { currentTest: test, loading, error, submitSuccess, submitResult } = useSelector((state) => state.tests);
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState({});
@@ -147,7 +147,24 @@ const TestPlayer = () => {
     dispatch(submitTest({ id: test._id, attemptData }));
   };
 
-  if (loading || !test) return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accentPrimary"></div></div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-accentPrimary"></div></div>;
+  
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+        <div className="bg-white p-10 rounded-3xl shadow-xl max-w-lg w-full text-center">
+          <div className="w-20 h-20 bg-red-100 text-red-500 rounded-full flex items-center justify-center text-4xl mx-auto mb-6">🔒</div>
+          <h2 className="text-3xl font-black text-gray-900 mb-2">Access Denied</h2>
+          <p className="text-gray-500 mb-8">{error}</p>
+          <button onClick={() => navigate('/dashboard/mock-tests')} className="w-full py-4 bg-accentPrimary text-white rounded-xl font-bold hover:bg-accentPrimary/90 transition-colors shadow-lg">
+            Back to Mock Tests
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!test) return null;
 
   if (submitSuccess && submitResult) {
     return (

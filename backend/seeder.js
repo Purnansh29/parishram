@@ -142,13 +142,16 @@ const importData = async () => {
       modules: sampleModules
     }));
 
+    const createdCourses = await Course.insertMany(coursesWithModules);
+    
     const sampleTests = [
       {
-        title: 'JEE Main 2026 Full Syllabus Mock Test 1',
-        description: 'Complete syllabus test simulating the real NTA interface. Contains 15 questions across Physics, Chemistry, and Mathematics.',
-        duration: 60, // 60 minutes for this dummy test
-        totalMarks: 60, // 15 questions * 4 marks
+        title: 'JEE Main 2026 Physics-Specific Mock Test 1',
+        description: 'Mock test exclusively for Physics course students.',
+        duration: 60,
+        totalMarks: 60,
         category: 'JEE Main',
+        course: createdCourses[0]._id, // Physics Course
         createdBy: adminUser._id,
         questions: [
           // Physics
@@ -173,8 +176,6 @@ const importData = async () => {
       }
     ];
 
-    await Course.insertMany(coursesWithModules);
-    
     // Clear tests and insert sample test
     await Test.deleteMany();
     await TestAttempt.deleteMany();

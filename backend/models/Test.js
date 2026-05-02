@@ -17,6 +17,11 @@ const testSchema = mongoose.Schema(
     totalMarks: { type: Number, required: true },
     category: { type: String, required: true }, // e.g., 'JEE Main', 'NEET'
     questions: [questionSchema],
+    course: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Course',
+      required: false, // Optional: some tests could be free/global
+    },
     isActive: { type: Boolean, default: true },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,

@@ -97,9 +97,13 @@ const Analytics = () => {
                   </div>
                 </div>
               ) : (
-                <div className="bg-white p-12 rounded-3xl border border-gray-100 shadow-sm text-center">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">No Analytics Available Yet</h3>
-                  <p className="text-gray-400">Attempt some mock tests to see your performance progression here.</p>
+                <div className="bg-white rounded-[2rem] border border-gray-100 p-16 text-center shadow-xl shadow-gray-200/40 relative overflow-hidden mt-8">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -mr-20 -mt-20"></div>
+                  <div className="text-7xl mb-6 relative z-10 animate-[bounce_3s_ease-in-out_infinite]">📊</div>
+                  <h3 className="text-2xl font-black text-gray-900 mb-3 relative z-10">No Analytics Available Yet</h3>
+                  <p className="text-gray-500 max-w-sm mx-auto font-medium relative z-10">
+                    Attempt your first mock test to unlock detailed performance insights, score progression, and accuracy metrics.
+                  </p>
                 </div>
               )}
 

@@ -21,9 +21,23 @@ const HeroSection = () => {
             <h1 className="text-[clamp(2.5rem,5.5vw,4.2rem)] font-extrabold tracking-tight leading-[1.1] animate-fade-in-up [animation-delay:100ms]">
               Quality Education
               <br />
-              <span className="gradient-text">Without the</span>
+              <span 
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #6c5ce7, #a29bfe, #fd79a8, #6c5ce7)',
+                  backgroundSize: '200% auto',
+                  animation: 'shimmer 3s linear infinite',
+                }}
+              >Without the</span>
               <br />
-              <span className="gradient-text">Heavy Price Tag</span>
+              <span 
+                className="bg-clip-text text-transparent"
+                style={{
+                  backgroundImage: 'linear-gradient(90deg, #6c5ce7, #a29bfe, #fd79a8, #6c5ce7)',
+                  backgroundSize: '200% auto',
+                  animation: 'shimmer 3s linear infinite',
+                }}
+              >Heavy Price Tag</span>
             </h1>
             
             <p className="text-lg text-gray-500 max-w-[520px] leading-relaxed mx-auto lg:mx-0 animate-fade-in-up [animation-delay:200ms]">

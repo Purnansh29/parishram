@@ -109,9 +109,9 @@ parishram/
 
 ## 📬 Contact Me
 Feel free to reach out to me:
- **LinkedIn:** [Purnansh Patel](https://www.linkedin.com/in/purnansh-patel-3b399a397/)
- **GitHub:** [Purnansh29](https://github.com/Purnansh29)
- **LeetCode:** [5Xm4vtaScz](https://leetcode.com/u/5Xm4vtaScz/)
+-- **LinkedIn:** [Purnansh Patel](https://www.linkedin.com/in/purnansh-patel-3b399a397/)
+-- **GitHub:** [Purnansh29](https://github.com/Purnansh29)
+-- **LeetCode:** [5Xm4vtaScz](https://leetcode.com/u/5Xm4vtaScz/)
 
 <div align="center">
   <b>If you like this project, please star the repository and connect with me.</b>

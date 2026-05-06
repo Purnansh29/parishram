@@ -9,9 +9,13 @@
 🌐 **Live Project:** https://my-parishram.vercel.app
 
 ⚙️ **Backend API:** https://parishram-backend.onrender.com
+
 📄 **Postman Documentation:** https://documenter.getpostman.com/view/50839268/2sBXqKoKyo
+
 🎨 **Figma Design Link:** https://www.figma.com/design/roQqepzpF2oPUxn0LrB5jT/Untitled?node-id=0-1&m=dev&t=JUIiCBA8okF5WMub-1
+
 🎥 **YouTube Demo Video Link:** https://youtu.be/tRxXFXJzsZw
+
 💻 **GitHub Repository:** https://github.com/Purnansh29/parishram
 
 ---

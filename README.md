@@ -81,18 +81,35 @@ parishram/
 ---
 
 ## 📸 Project Images / Screenshots
-*(Add your actual project screenshots here. You can drag and drop images directly into GitHub to replace these placeholders)*
+
+🔐 Login Page
 
 <div align="center">
  <img width="1350" height="868" alt="Screenshot 2026-05-06 102121" src="https://github.com/user-attachments/assets/4c14f3b6-517b-41e5-9ef4-113259d0e61d" />
+ <br/>
+  <br/>
+  📊Admin Dashboard
+  
+  <img width="1918" height="908" alt="Screenshot 2026-05-06 102210" src="https://github.com/user-attachments/assets/60c69686-e65d-4ad5-b562-9ee8f2e0b5ad" /><br/> <br/>
+👨🏻‍🏫Teacher Management
 
-  <br/>
-  <br/>
-  <img src="https://via.placeholder.com/800x400?text=Dashboard+Screenshot" alt="Dashboard" width="80%" />
-  <br/>
-  <br/>
-  <img src="https://via.placeholder.com/800x400?text=Test+Engine+Screenshot" alt="Test Engine" width="80%" />
-</div>
+<img width="1918" height="911" alt="Screenshot 2026-05-06 102249" src="https://github.com/user-attachments/assets/4ffb5728-1525-4c71-808d-b64e1b4315ab" /><br/> <br/>
+
+💸Finance & Fees management
+
+<img width="1916" height="915" alt="Screenshot 2026-05-06 102307" src="https://github.com/user-attachments/assets/7839c4e7-9e72-4b64-8a6c-bf83d7b4aeed" /><br/> <br/>
+📚Popular Courses
+
+<img width="1577" height="825" alt="Screenshot 2026-05-06 102357" src="https://github.com/user-attachments/assets/450db4c1-b629-4207-b7c7-6d93d9fdc491" /><br/> <br/>
+👨🏻‍🏫Teacher Control Centre
+
+<img width="1919" height="909" alt="Screenshot 2026-05-06 102424" src="https://github.com/user-attachments/assets/cbefa866-defa-4c57-bc7c-009bbc57c164" /><br/> <br/>
+
+
+
+
+
+
 
 ---
 
@@ -102,6 +119,10 @@ Feel free to reach out to me:
 - **GitHub:** [Purnansh29](https://github.com/Purnansh29)
 - **LeetCode:** [5Xm4vtaScz](https://leetcode.com/u/5Xm4vtaScz/)
 
+👨‍💻 Author
+
+Purnansh Patel Full Stack Developer | MERN Stack Enthusiast
+
 <div align="center">
-  <b>Built with ❤️ by Purnansh Patel</b>
+  <b>If you like this project, please star the repository and connect with me.</b>
 </div>

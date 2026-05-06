@@ -105,12 +105,6 @@ parishram/
 
 <img width="1919" height="909" alt="Screenshot 2026-05-06 102424" src="https://github.com/user-attachments/assets/cbefa866-defa-4c57-bc7c-009bbc57c164" /><br/> <br/>
 
-
-
-
-
-
-
 ---
 
 ## 📬 Contact Me
@@ -118,10 +112,6 @@ Feel free to reach out to me:
 - **LinkedIn:** [Purnansh Patel](https://www.linkedin.com/in/purnansh-patel-3b399a397/)
 - **GitHub:** [Purnansh29](https://github.com/Purnansh29)
 - **LeetCode:** [5Xm4vtaScz](https://leetcode.com/u/5Xm4vtaScz/)
-
-👨‍💻 Author
-
-Purnansh Patel Full Stack Developer | MERN Stack Enthusiast
 
 <div align="center">
   <b>If you like this project, please star the repository and connect with me.</b>

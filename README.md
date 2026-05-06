@@ -84,7 +84,8 @@ parishram/
 *(Add your actual project screenshots here. You can drag and drop images directly into GitHub to replace these placeholders)*
 
 <div align="center">
-  <img src="https://via.placeholder.com/800x400?text=Homepage+Screenshot" alt="Homepage" width="80%" />
+ <img width="1350" height="868" alt="Screenshot 2026-05-06 102121" src="https://github.com/user-attachments/assets/4c14f3b6-517b-41e5-9ef4-113259d0e61d" />
+
   <br/>
   <br/>
   <img src="https://via.placeholder.com/800x400?text=Dashboard+Screenshot" alt="Dashboard" width="80%" />

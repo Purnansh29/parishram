@@ -1,7 +1,4 @@
-<div align="center">
-  <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Parishram Banner" width="100%" style="border-radius: 12px; margin-bottom: 20px;" />
-
-  # 🎓 Parishram - Premium EdTech Platform
+# 🎓 Parishram - Premium EdTech Platform
   
   **A scalable, modern, and comprehensive e-learning management system.**
 </div>

@@ -18,7 +18,7 @@ const app = express();
 
 // Middleware
 const allowedOrigins = (process.env.CLIENT_URLS ||
-  'https://parishram-eight.vercel.app,http://localhost:5173')
+  'https://parishram-eight.vercel.app,https://parishram-purnansh.vercel.app,http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
